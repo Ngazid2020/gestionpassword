@@ -24,4 +24,9 @@ class Organisation extends Model
     {
         return $this->hasMany(Category::class);
     }
+
+    public function roles()
+    {
+        return $this->hasMany(Role::class);
+    }
 }

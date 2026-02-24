@@ -19,6 +19,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Spatie\Permission\PermissionRegistrar;
 
 class GestionPanelProvider extends PanelProvider
 {
@@ -60,5 +61,13 @@ class GestionPanelProvider extends PanelProvider
             ->plugins([
                 FilamentSpatieRolesPermissionsPlugin::make(),
             ]);
+    }
+
+    public function boot()
+    {
+        if (filament()->getTenant()) {
+            app(PermissionRegistrar::class)
+                ->setPermissionsTeamId(filament()->getTenant()->id);
+        }
     }
 }
