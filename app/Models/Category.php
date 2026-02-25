@@ -18,4 +18,9 @@ class Category extends Model
     {
         return $this->belongsTo(Organisation::class);
     }
+
+    public function accounts()
+    {
+        return $this->hasMany(Account::class);
+    }
 }
