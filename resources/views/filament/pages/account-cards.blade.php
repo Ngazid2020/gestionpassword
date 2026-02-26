@@ -51,7 +51,17 @@
                         {{ $account->identifiant }}
                     </span>
 
-                    <button x-on:click="navigator.clipboard.writeText('{{ $account->identifiant }}')" class="text-xs text-primary-600 hover:underline">
+                    {{-- <button x-on:click="navigator.clipboard.writeText('{{ $account->identifiant }}')" class="text-xs text-primary-600 hover:underline">
+                    Copier
+                    </button> --}}
+                    <button x-on:click="
+        const input = document.createElement('input');
+        input.value = '{{ $account->identifiant }}';
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+    " class="text-xs text-primary-600 hover:underline">
                         Copier
                     </button>
                 </div>
@@ -69,12 +79,22 @@
                     </span>
 
                     <div class="flex gap-2">
-                        <button x-on:click="showPassword = !showPassword" class="text-xs text-primary-600 hover:underline">
+                        <button x-on:click="showPassword = !showPassword" class="text-xs text-secondary-600 hover:underline">
                             <span x-show="!showPassword">Afficher</span>
                             <span x-show="showPassword">Masquer</span>
                         </button>
 
-                        <button x-on:click="navigator.clipboard.writeText('{{ $account->password }}')" class="text-xs text-primary-600 hover:underline">
+                        {{-- <button x-on:click="navigator.clipboard.writeText('{{ $account->password }}')" class="text-xs text-primary-600 hover:underline">
+                        Copier
+                        </button> --}}
+                        <button x-on:click="
+        const input = document.createElement('input');
+        input.value = '{{ $account->password }}';
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+    " class="text-xs text-primary-600 hover:underline">
                             Copier
                         </button>
                     </div>
@@ -115,26 +135,37 @@
         <form wire:submit.prevent="saveEdit">
 
             <div class="space-y-4">
-
-                <x-filament::input.wrapper>
-                    <x-filament::input type="text" wire:model="editForm.name" placeholder="Nom" />
-                </x-filament::input.wrapper>
-
+                <div>
+                    <label class="text-sm text-gray-600 dark:text-gray-300">Nom</label>
+                    <x-filament::input.wrapper>
+                        <x-filament::input type="text" wire:model="editForm.name" placeholder="Nom" />
+                    </x-filament::input.wrapper>
+                </div>
+                
+                <div>
+                    <label class="text-sm text-gray-600 dark:text-gray-300">URL</label>
                 <x-filament::input.wrapper>
                     <x-filament::input type="text" wire:model="editForm.url" placeholder="URL" />
                 </x-filament::input.wrapper>
-
+            </div>
+            <div>
+                <label class="text-sm text-gray-600 dark:text-gray-300">Identifiant</label>
                 <x-filament::input.wrapper>
                     <x-filament::input type="text" wire:model="editForm.identifiant" placeholder="Identifiant" />
                 </x-filament::input.wrapper>
-
+            </div>
+            <div>
+                <label class="text-sm text-gray-600 dark:text-gray-300">Mot de passe</label>
                 <x-filament::input.wrapper>
                     <x-filament::input type="text" wire:model="editForm.password" placeholder="Mot de passe" />
                 </x-filament::input.wrapper>
-
+            </div>
+            <div>
+                <label class="text-sm text-gray-600 dark:text-gray-300">Notes</label>
                 <x-filament::input.wrapper>
                     <textarea wire:model.defer="editForm.notes" rows="4" class="block w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-900" placeholder="Notes"></textarea>
                 </x-filament::input.wrapper>
+            </div>
 
                 <x-filament::input.wrapper>
                     <select wire:model="editForm.category_id" class="w-full border-none bg-transparent focus:ring-0 text-sm">

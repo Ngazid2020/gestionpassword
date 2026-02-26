@@ -3,7 +3,9 @@
 namespace App\Providers\Filament;
 
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
+use Althinect\FilamentSpatieRolesPermissions\Middleware\SyncSpatiePermissionsWithFilamentTenants;
 use App\Models\Organisation;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -31,7 +33,8 @@ class GestionPanelProvider extends PanelProvider
             ->path('gestion')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Indigo,
+                'secondary' => Color::Sky,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -57,17 +60,21 @@ class GestionPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->tenant(Organisation::class, 'slug')
+            ->tenant(
+                Organisation::class,
+                'slug'
+            )
+            ->bootUsing(function () {
+                if ($tenant = filament()->getTenant()) {
+                    app(\Spatie\Permission\PermissionRegistrar::class)
+                        ->setPermissionsTeamId($tenant->id);
+                }
+            })
             ->plugins([
                 FilamentSpatieRolesPermissionsPlugin::make(),
-            ]);
-    }
-
-    public function boot()
-    {
-        if (filament()->getTenant()) {
-            app(PermissionRegistrar::class)
-                ->setPermissionsTeamId(filament()->getTenant()->id);
-        }
+            ])
+            ->tenantMiddleware([
+                SyncSpatiePermissionsWithFilamentTenants::class,
+            ], isPersistent: true);
     }
 }

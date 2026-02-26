@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('organisation_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('organisation_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('organisation_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->unique(['organisation_id', 'user_id']);
             $table->timestamps();
         });
     }
@@ -24,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('organisation_users');
+        Schema::dropIfExists('organisation_user');
     }
 };

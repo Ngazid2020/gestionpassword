@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Category;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 
 class AccountCards extends Page
@@ -36,7 +37,6 @@ class AccountCards extends Page
     {
         $this->loadAccounts();
     }
-
 
 
     public function loadAccounts(): void
@@ -143,5 +143,9 @@ class AccountCards extends Page
         $this->loadAccounts();
 
         $this->dispatch('close-modal', id: 'edit-account');
+        Notification::make()
+            ->title('Compte mis à jour')
+            ->success()
+            ->send();
     }
 }
