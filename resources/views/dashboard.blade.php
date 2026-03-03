@@ -7,8 +7,8 @@
     </x-slot>
     {{-- BOUTON + MODAL --}}
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4 flex justify-end">
-    <livewire:create-account-modal />
-</div>
+        <livewire:create-account-modal wire:key="accountModal" />
+    </div>
     <div class="min-h-screen bg-gradient-to-br from-gray-100 via-indigo-50 to-purple-100 
                 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 py-10">
 
@@ -117,15 +117,6 @@
                             </div>
                         </div>
 
-                        {{-- NOTES --}}
-                        <!-- @if($account->notes)
-                        <div class="mt-5">
-                            <span class="text-xs uppercase tracking-wider text-gray-400">Notes</span>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-                                {{ $account->notes }}
-                            </p>
-                        </div>
-                        @endif -->
 
                         {{-- FOOTER --}}
                         <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 
@@ -137,8 +128,17 @@
 
                             <div class="flex items-center gap-2">
                                 <span>Maj {{ $account->updated_at->format('d/m/Y') }}</span>
-
                                 
+                                {{-- EDIT --}}
+                                <button
+                                    wire:click="$dispatch('editAccount', { id: {{ $account->id }} })"
+                                    class="px-3 py-1 rounded-lg text-xs font-semibold
+               bg-yellow-100 text-yellow-700
+               hover:bg-yellow-500 hover:text-white
+               transition duration-300">
+                                    Modifier
+                                </button>
+
                             </div>
 
                         </div>

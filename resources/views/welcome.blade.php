@@ -1,176 +1,1537 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lakile — Coffre-fort numérique d'entreprise</title>
 
-        <title>Laravel</title>
+{{-- ⚡ CRITIQUE : doit être le PREMIER script, avant tout CSS --}}
+<script>
+  (function(){
+    var saved = localStorage.getItem('lk-theme');
+    var theme = saved === 'light' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-        <!-- Styles / Scripts -->
-        @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @else
-            <style>
-                /* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }*,:before,:after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}:before,:after{--tw-content: ""}html,:host{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:Figtree,ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}ol,ul,menu{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}button,[role=button]{cursor:pointer}:disabled{cursor:default}img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.absolute{position:absolute}.relative{position:relative}.-bottom-16{bottom:-4rem}.-left-16{left:-4rem}.-left-20{left:-5rem}.top-0{top:0}.z-0{z-index:0}.\!row-span-1{grid-row:span 1 / span 1!important}.-mx-3{margin-left:-.75rem;margin-right:-.75rem}.-ml-px{margin-left:-1px}.ml-3{margin-left:.75rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.flex{display:flex}.inline-flex{display:inline-flex}.table{display:table}.grid{display:grid}.\!hidden{display:none!important}.hidden{display:none}.aspect-video{aspect-ratio:16 / 9}.size-12{width:3rem;height:3rem}.size-5{width:1.25rem;height:1.25rem}.size-6{width:1.5rem;height:1.5rem}.h-12{height:3rem}.h-40{height:10rem}.h-5{height:1.25rem}.h-full{height:100%}.min-h-screen{min-height:100vh}.w-5{width:1.25rem}.w-\[calc\(100\%_\+_8rem\)\]{width:calc(100% + 8rem)}.w-auto{width:auto}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-\[877px\]{max-width:877px}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-default{cursor:default}.resize{resize:both}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.\!flex-row{flex-direction:row!important}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.items-stretch{align-items:stretch}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.justify-items-center{justify-items:center}.gap-2{gap:.5rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.self-center{align-self:center}.overflow-hidden{overflow:hidden}.rounded-\[10px\]{border-radius:10px}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:.5rem}.rounded-md{border-radius:.375rem}.rounded-sm{border-radius:.125rem}.rounded-l-md{border-top-left-radius:.375rem;border-bottom-left-radius:.375rem}.rounded-r-md{border-top-right-radius:.375rem;border-bottom-right-radius:.375rem}.border{border-width:1px}.border-gray-300{--tw-border-opacity: 1;border-color:rgb(209 213 219 / var(--tw-border-opacity, 1))}.bg-\[\#FF2D20\]\/10{background-color:#ff2d201a}.bg-gray-50{--tw-bg-opacity: 1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity: 1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-gradient-to-b{background-image:linear-gradient(to bottom,var(--tw-gradient-stops))}.from-transparent{--tw-gradient-from: transparent var(--tw-gradient-from-position);--tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);--tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to)}.via-white{--tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops: var(--tw-gradient-from), #fff var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-white{--tw-gradient-to: #fff var(--tw-gradient-to-position)}.to-zinc-900{--tw-gradient-to: #18181b var(--tw-gradient-to-position)}.stroke-\[\#FF2D20\]{stroke:#ff2d20}.object-cover{-o-object-fit:cover;object-fit:cover}.object-top{-o-object-position:top;object-position:top}.p-6{padding:1.5rem}.px-2{padding-left:.5rem;padding-right:.5rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.py-16{padding-top:4rem;padding-bottom:4rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.pt-3{padding-top:.75rem}.text-center{text-align:center}.font-sans{font-family:Figtree,ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji"}.text-sm{font-size:.875rem;line-height:1.25rem}.text-sm\/relaxed{font-size:.875rem;line-height:1.625}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-medium{font-weight:500}.font-semibold{font-weight:600}.leading-5{line-height:1.25rem}.text-black{--tw-text-opacity: 1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.text-black\/50{color:#00000080}.text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-gray-700{--tw-text-opacity: 1;color:rgb(55 65 81 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.underline{text-decoration-line:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-\[0px_14px_34px_0px_rgba\(0\,0\,0\,0\.08\)\]{--tw-shadow: 0px 14px 34px 0px rgba(0,0,0,.08);--tw-shadow-colored: 0px 14px 34px 0px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.shadow-sm{--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);--tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.ring-1{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}.ring-black{--tw-ring-opacity: 1;--tw-ring-color: rgb(0 0 0 / var(--tw-ring-opacity, 1))}.ring-gray-300{--tw-ring-opacity: 1;--tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity, 1))}.ring-transparent{--tw-ring-color: transparent}.ring-white{--tw-ring-opacity: 1;--tw-ring-color: rgb(255 255 255 / var(--tw-ring-opacity, 1))}.ring-white\/\[0\.05\]{--tw-ring-color: rgb(255 255 255 / .05)}.drop-shadow-\[0px_4px_34px_rgba\(0\,0\,0\,0\.06\)\]{--tw-drop-shadow: drop-shadow(0px 4px 34px rgba(0,0,0,.06));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0px_4px_34px_rgba\(0\,0\,0\,0\.25\)\]{--tw-drop-shadow: drop-shadow(0px 4px 34px rgba(0,0,0,.25));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.duration-150{transition-duration:.15s}.duration-300{transition-duration:.3s}.ease-in-out{transition-timing-function:cubic-bezier(.4,0,.2,1)}.selection\:bg-\[\#FF2D20\] *::-moz-selection{--tw-bg-opacity: 1;background-color:rgb(255 45 32 / var(--tw-bg-opacity, 1))}.selection\:bg-\[\#FF2D20\] *::selection{--tw-bg-opacity: 1;background-color:rgb(255 45 32 / var(--tw-bg-opacity, 1))}.selection\:text-white *::-moz-selection{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.selection\:text-white *::selection{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.selection\:bg-\[\#FF2D20\]::-moz-selection{--tw-bg-opacity: 1;background-color:rgb(255 45 32 / var(--tw-bg-opacity, 1))}.selection\:bg-\[\#FF2D20\]::selection{--tw-bg-opacity: 1;background-color:rgb(255 45 32 / var(--tw-bg-opacity, 1))}.selection\:text-white::-moz-selection{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.selection\:text-white::selection{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\:text-black:hover{--tw-text-opacity: 1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.hover\:text-black\/70:hover{color:#000000b3}.hover\:text-gray-400:hover{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.hover\:text-gray-500:hover{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.hover\:ring-black\/20:hover{--tw-ring-color: rgb(0 0 0 / .2)}.focus\:z-10:focus{z-index:10}.focus\:border-blue-300:focus{--tw-border-opacity: 1;border-color:rgb(147 197 253 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring:focus{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}.focus-visible\:ring-1:focus-visible{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}.focus-visible\:ring-\[\#FF2D20\]:focus-visible{--tw-ring-opacity: 1;--tw-ring-color: rgb(255 45 32 / var(--tw-ring-opacity, 1))}.active\:bg-gray-100:active{--tw-bg-opacity: 1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.active\:text-gray-500:active{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.active\:text-gray-700:active{--tw-text-opacity: 1;color:rgb(55 65 81 / var(--tw-text-opacity, 1))}@media (min-width: 640px){.sm\:flex{display:flex}.sm\:hidden{display:none}.sm\:size-16{width:4rem;height:4rem}.sm\:size-6{width:1.5rem;height:1.5rem}.sm\:flex-1{flex:1 1 0%}.sm\:items-center{align-items:center}.sm\:justify-between{justify-content:space-between}.sm\:pt-5{padding-top:1.25rem}}@media (min-width: 768px){.md\:row-span-3{grid-row:span 3 / span 3}}@media (min-width: 1024px){.lg\:col-start-2{grid-column-start:2}.lg\:h-16{height:4rem}.lg\:max-w-7xl{max-width:80rem}.lg\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.lg\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.lg\:flex-col{flex-direction:column}.lg\:items-end{align-items:flex-end}.lg\:justify-center{justify-content:center}.lg\:gap-8{gap:2rem}.lg\:p-10{padding:2.5rem}.lg\:pb-10{padding-bottom:2.5rem}.lg\:pt-0{padding-top:0}.lg\:text-\[\#FF2D20\]{--tw-text-opacity: 1;color:rgb(255 45 32 / var(--tw-text-opacity, 1))}}.rtl\:flex-row-reverse:where([dir=rtl],[dir=rtl] *){flex-direction:row-reverse}@media (prefers-color-scheme: dark){.dark\:block{display:block}.dark\:hidden{display:none}.dark\:border-gray-600{--tw-border-opacity: 1;border-color:rgb(75 85 99 / var(--tw-border-opacity, 1))}.dark\:bg-black{--tw-bg-opacity: 1;background-color:rgb(0 0 0 / var(--tw-bg-opacity, 1))}.dark\:bg-gray-800{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity, 1))}.dark\:bg-zinc-900{--tw-bg-opacity: 1;background-color:rgb(24 24 27 / var(--tw-bg-opacity, 1))}.dark\:via-zinc-900{--tw-gradient-to: rgb(24 24 27 / 0) var(--tw-gradient-to-position);--tw-gradient-stops: var(--tw-gradient-from), #18181b var(--tw-gradient-via-position), var(--tw-gradient-to)}.dark\:to-zinc-900{--tw-gradient-to: #18181b var(--tw-gradient-to-position)}.dark\:text-gray-300{--tw-text-opacity: 1;color:rgb(209 213 219 / var(--tw-text-opacity, 1))}.dark\:text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.dark\:text-gray-600{--tw-text-opacity: 1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.dark\:text-white{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.dark\:text-white\/50{color:#ffffff80}.dark\:text-white\/70{color:#ffffffb3}.dark\:ring-zinc-800{--tw-ring-opacity: 1;--tw-ring-color: rgb(39 39 42 / var(--tw-ring-opacity, 1))}.dark\:hover\:text-gray-300:hover{--tw-text-opacity: 1;color:rgb(209 213 219 / var(--tw-text-opacity, 1))}.dark\:hover\:text-white:hover{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.dark\:hover\:text-white\/70:hover{color:#ffffffb3}.dark\:hover\:text-white\/80:hover{color:#fffc}.dark\:hover\:ring-zinc-700:hover{--tw-ring-opacity: 1;--tw-ring-color: rgb(63 63 70 / var(--tw-ring-opacity, 1))}.dark\:focus\:border-blue-700:focus{--tw-border-opacity: 1;border-color:rgb(29 78 216 / var(--tw-border-opacity, 1))}.dark\:focus\:border-blue-800:focus{--tw-border-opacity: 1;border-color:rgb(30 64 175 / var(--tw-border-opacity, 1))}.dark\:focus-visible\:ring-\[\#FF2D20\]:focus-visible{--tw-ring-opacity: 1;--tw-ring-color: rgb(255 45 32 / var(--tw-ring-opacity, 1))}.dark\:focus-visible\:ring-white:focus-visible{--tw-ring-opacity: 1;--tw-ring-color: rgb(255 255 255 / var(--tw-ring-opacity, 1))}.dark\:active\:bg-gray-700:active{--tw-bg-opacity: 1;background-color:rgb(55 65 81 / var(--tw-bg-opacity, 1))}.dark\:active\:text-gray-300:active{--tw-text-opacity: 1;color:rgb(209 213 219 / var(--tw-text-opacity, 1))}}
-            </style>
-        @endif
-    </head>
-    <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-        <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-            <img id="background" class="absolute -left-20 top-0 max-w-[877px]" src="https://laravel.com/assets/img/welcome/background.svg" alt="Laravel background" />
-            <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
-                <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-                    <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
-                        <div class="flex lg:justify-center lg:col-start-2">
-                            <svg class="h-12 w-auto text-white lg:h-16 lg:text-[#FF2D20]" viewBox="0 0 62 65" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M61.8548 14.6253C61.8778 14.7102 61.8895 14.7978 61.8897 14.8858V28.5615C61.8898 28.737 61.8434 28.9095 61.7554 29.0614C61.6675 29.2132 61.5409 29.3392 61.3887 29.4265L49.9104 36.0351V49.1337C49.9104 49.4902 49.7209 49.8192 49.4118 49.9987L25.4519 63.7916C25.3971 63.8227 25.3372 63.8427 25.2774 63.8639C25.255 63.8714 25.2338 63.8851 25.2101 63.8913C25.0426 63.9354 24.8666 63.9354 24.6991 63.8913C24.6716 63.8838 24.6467 63.8689 24.6205 63.8589C24.5657 63.8389 24.5084 63.8215 24.456 63.7916L0.501061 49.9987C0.348882 49.9113 0.222437 49.7853 0.134469 49.6334C0.0465019 49.4816 0.000120578 49.3092 0 49.1337L0 8.10652C0 8.01678 0.0124642 7.92953 0.0348998 7.84477C0.0423783 7.8161 0.0598282 7.78993 0.0697995 7.76126C0.0884958 7.70891 0.105946 7.65531 0.133367 7.6067C0.152063 7.5743 0.179485 7.54812 0.20192 7.51821C0.230588 7.47832 0.256763 7.43719 0.290416 7.40229C0.319084 7.37362 0.356476 7.35243 0.388883 7.32751C0.425029 7.29759 0.457436 7.26518 0.498568 7.2415L12.4779 0.345059C12.6296 0.257786 12.8015 0.211853 12.9765 0.211853C13.1515 0.211853 13.3234 0.257786 13.475 0.345059L25.4531 7.2415H25.4556C25.4955 7.26643 25.5292 7.29759 25.5653 7.32626C25.5977 7.35119 25.6339 7.37362 25.6625 7.40104C25.6974 7.43719 25.7224 7.47832 25.7523 7.51821C25.7735 7.54812 25.8021 7.5743 25.8196 7.6067C25.8483 7.65656 25.8645 7.70891 25.8844 7.76126C25.8944 7.78993 25.9118 7.8161 25.9193 7.84602C25.9423 7.93096 25.954 8.01853 25.9542 8.10652V33.7317L35.9355 27.9844V14.8846C35.9355 14.7973 35.948 14.7088 35.9704 14.6253C35.9792 14.5954 35.9954 14.5692 36.0053 14.5405C36.0253 14.4882 36.0427 14.4346 36.0702 14.386C36.0888 14.3536 36.1163 14.3274 36.1375 14.2975C36.1674 14.2576 36.1923 14.2165 36.2272 14.1816C36.2559 14.1529 36.292 14.1317 36.3244 14.1068C36.3618 14.0769 36.3942 14.0445 36.4341 14.0208L48.4147 7.12434C48.5663 7.03694 48.7383 6.99094 48.9133 6.99094C49.0883 6.99094 49.2602 7.03694 49.4118 7.12434L61.3899 14.0208C61.4323 14.0457 61.4647 14.0769 61.5021 14.1055C61.5333 14.1305 61.5694 14.1529 61.5981 14.1803C61.633 14.2165 61.6579 14.2576 61.6878 14.2975C61.7103 14.3274 61.7377 14.3536 61.7551 14.386C61.7838 14.4346 61.8 14.4882 61.8199 14.5405C61.8312 14.5692 61.8474 14.5954 61.8548 14.6253ZM59.893 27.9844V16.6121L55.7013 19.0252L49.9104 22.3593V33.7317L59.8942 27.9844H59.893ZM47.9149 48.5566V37.1768L42.2187 40.4299L25.953 49.7133V61.2003L47.9149 48.5566ZM1.99677 9.83281V48.5566L23.9562 61.199V49.7145L12.4841 43.2219L12.4804 43.2194L12.4754 43.2169C12.4368 43.1945 12.4044 43.1621 12.3682 43.1347C12.3371 43.1097 12.3009 43.0898 12.2735 43.0624L12.271 43.0586C12.2386 43.0275 12.2162 42.9888 12.1887 42.9539C12.1638 42.9203 12.1339 42.8916 12.114 42.8567L12.1127 42.853C12.0903 42.8156 12.0766 42.7707 12.0604 42.7283C12.0442 42.6909 12.023 42.656 12.013 42.6161C12.0005 42.5688 11.998 42.5177 11.9931 42.4691C11.9881 42.4317 11.9781 42.3943 11.9781 42.3569V15.5801L6.18848 12.2446L1.99677 9.83281ZM12.9777 2.36177L2.99764 8.10652L12.9752 13.8513L22.9541 8.10527L12.9752 2.36177H12.9777ZM18.1678 38.2138L23.9574 34.8809V9.83281L19.7657 12.2459L13.9749 15.5801V40.6281L18.1678 38.2138ZM48.9133 9.14105L38.9344 14.8858L48.9133 20.6305L58.8909 14.8846L48.9133 9.14105ZM47.9149 22.3593L42.124 19.0252L37.9323 16.6121V27.9844L43.7219 31.3174L47.9149 33.7317V22.3593ZM24.9533 47.987L39.59 39.631L46.9065 35.4555L36.9352 29.7145L25.4544 36.3242L14.9907 42.3482L24.9533 47.987Z" fill="currentColor"/></svg>
-                        </div>
-                        @if (Route::has('login'))
-                            <nav class="-mx-3 flex flex-1 justify-end">
-                                @auth
-                                    <a
-                                        href="{{ url('/dashboard') }}"
-                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                    >
-                                        Dashboard
-                                    </a>
-                                @else
-                                    <a
-                                        href="{{ route('login') }}"
-                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                    >
-                                        Log in
-                                    </a>
+@if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+@endif
 
-                                    @if (Route::has('register'))
-                                        <a
-                                            href="{{ route('register') }}"
-                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                        >
-                                            Register
-                                        </a>
-                                    @endif
-                                @endauth
-                            </nav>
-                        @endif
-                    </header>
+<style>
+/* ══════════════════════════════════════════════════════════
+   1. THEME TOKENS — appliqués sur html[data-theme]
+══════════════════════════════════════════════════════════ */
+[data-theme="dark"] {
+  --bg:          #07090f;
+  --bg2:         #0d1120;
+  --surf:        #111827;
+  --surf2:       #1a2438;
+  --bdr:         rgba(255,255,255,0.07);
+  --bdr2:        rgba(255,255,255,0.14);
+  --txt:         #e2e8f8;
+  --txt2:        rgba(226,232,248,0.52);
+  --txt3:        rgba(226,232,248,0.28);
+  --acc:         #4F7CFF;
+  --acc2:        #3565f0;
+  --acc3:        rgba(79,124,255,0.15);
+  --gold:        #FFB443;
+  --gold2:       rgba(255,180,67,0.14);
+  --green:       #22d3a4;
+  --glow-a:      rgba(79,124,255,0.22);
+  --glow-b:      rgba(255,180,67,0.1);
+  --nav-bg:      rgba(7,9,15,0.85);
+  --tag-bg:      rgba(79,124,255,0.12);
+  --tag-txt:     #7fa8ff;
+  --shadow-card: 0 24px 60px rgba(0,0,0,0.3);
+  --shadow-sm:   0 4px 16px rgba(0,0,0,0.2);
+  --card-shine:  rgba(255,255,255,0.03);
+}
+[data-theme="light"] {
+  --bg:          #f0f4ff;
+  --bg2:         #e5eaf7;
+  --surf:        #ffffff;
+  --surf2:       #f5f7ff;
+  --bdr:         rgba(0,0,0,0.07);
+  --bdr2:        rgba(0,0,0,0.14);
+  --txt:         #0c1028;
+  --txt2:        rgba(12,16,40,0.52);
+  --txt3:        rgba(12,16,40,0.3);
+  --acc:         #2952e3;
+  --acc2:        #1a3fc9;
+  --acc3:        rgba(41,82,227,0.1);
+  --gold:        #c97d10;
+  --gold2:       rgba(201,125,16,0.12);
+  --green:       #059669;
+  --glow-a:      rgba(41,82,227,0.1);
+  --glow-b:      rgba(201,125,16,0.07);
+  --nav-bg:      rgba(240,244,255,0.88);
+  --tag-bg:      rgba(41,82,227,0.08);
+  --tag-txt:     #2952e3;
+  --shadow-card: 0 16px 48px rgba(0,0,0,0.1);
+  --shadow-sm:   0 4px 16px rgba(0,0,0,0.07);
+  --card-shine:  rgba(255,255,255,0.7);
+}
 
-                    <main class="mt-6">
-                        <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
-                            <a
-                                href="https://laravel.com/docs"
-                                id="docs-card"
-                                class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
-                            >
-                                <div id="screenshot-container" class="relative flex w-full flex-1 items-stretch">
-                                    <img
-                                        src="https://laravel.com/assets/img/welcome/docs-light.svg"
-                                        alt="Laravel documentation screenshot"
-                                        class="aspect-video h-full w-full flex-1 rounded-[10px] object-top object-cover drop-shadow-[0px_4px_34px_rgba(0,0,0,0.06)] dark:hidden"
-                                        onerror="
-                                            document.getElementById('screenshot-container').classList.add('!hidden');
-                                            document.getElementById('docs-card').classList.add('!row-span-1');
-                                            document.getElementById('docs-card-content').classList.add('!flex-row');
-                                            document.getElementById('background').classList.add('!hidden');
-                                        "
-                                    />
-                                    <img
-                                        src="https://laravel.com/assets/img/welcome/docs-dark.svg"
-                                        alt="Laravel documentation screenshot"
-                                        class="hidden aspect-video h-full w-full flex-1 rounded-[10px] object-top object-cover drop-shadow-[0px_4px_34px_rgba(0,0,0,0.25)] dark:block"
-                                    />
-                                    <div
-                                        class="absolute -bottom-16 -left-16 h-40 w-[calc(100%_+_8rem)] bg-gradient-to-b from-transparent via-white to-white dark:via-zinc-900 dark:to-zinc-900"
-                                    ></div>
-                                </div>
+/* ══════════════════════════════════════════════════════════
+   2. RESET & BASE
+══════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px;height:100%}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--bg);color:var(--txt);
+  line-height:1.65;font-weight:400;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  /* transition uniquement sur bg/color pour éviter les flash */
+  transition:background-color .35s ease, color .35s ease;
+}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+img{display:block;max-width:100%}
 
-                                <div class="relative flex items-center gap-6 lg:items-end">
-                                    <div id="docs-card-content" class="flex items-start gap-6 lg:flex-col">
-                                        <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                                            <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#FF2D20" d="M23 4a1 1 0 0 0-1.447-.894L12.224 7.77a.5.5 0 0 1-.448 0L2.447 3.106A1 1 0 0 0 1 4v13.382a1.99 1.99 0 0 0 1.105 1.79l9.448 4.728c.14.065.293.1.447.1.154-.005.306-.04.447-.105l9.453-4.724a1.99 1.99 0 0 0 1.1-1.789V4ZM3 6.023a.25.25 0 0 1 .362-.223l7.5 3.75a.251.251 0 0 1 .138.223v11.2a.25.25 0 0 1-.362.224l-7.5-3.75a.25.25 0 0 1-.138-.22V6.023Zm18 11.2a.25.25 0 0 1-.138.224l-7.5 3.75a.249.249 0 0 1-.329-.099.249.249 0 0 1-.033-.12V9.772a.251.251 0 0 1 .138-.224l7.5-3.75a.25.25 0 0 1 .362.224v11.2Z"/><path fill="#FF2D20" d="m3.55 1.893 8 4.048a1.008 1.008 0 0 0 .9 0l8-4.048a1 1 0 0 0-.9-1.785l-7.322 3.706a.506.506 0 0 1-.452 0L4.454.108a1 1 0 0 0-.9 1.785H3.55Z"/></svg>
-                                        </div>
+/* ══════════════════════════════════════════════════════════
+   3. PARTICULES CANVAS HERO
+══════════════════════════════════════════════════════════ */
+#particles-canvas{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  opacity:.55;transition:opacity .4s;
+}
+[data-theme="light"] #particles-canvas{opacity:.25}
 
-                                        <div class="pt-3 sm:pt-5 lg:pt-0">
-                                            <h2 class="text-xl font-semibold text-black dark:text-white">Documentation</h2>
+/* ══════════════════════════════════════════════════════════
+   4. LAYOUT
+══════════════════════════════════════════════════════════ */
+.wrap{max-width:1200px;margin:0 auto;padding:0 2rem;position:relative;z-index:2}
 
-                                            <p class="mt-4 text-sm/relaxed">
-                                                Laravel has wonderful documentation covering every aspect of the framework. Whether you are a newcomer or have prior experience with Laravel, we recommend reading our documentation from beginning to end.
-                                            </p>
-                                        </div>
-                                    </div>
+/* ══════════════════════════════════════════════════════════
+   5. NAV
+══════════════════════════════════════════════════════════ */
+.nav{
+  position:sticky;top:0;z-index:500;
+  background:var(--nav-bg);
+  border-bottom:1px solid var(--bdr);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  transition:background-color .35s ease, border-color .35s ease;
+}
+.nav-inner{
+  display:flex;align-items:center;
+  justify-content:space-between;
+  height:68px;gap:1.5rem;
+}
+.logo{display:flex;align-items:center;gap:11px;flex-shrink:0}
+.logo-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(135deg,var(--acc),#818cf8);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 1px rgba(79,124,255,.35), 0 6px 20px rgba(79,124,255,.3);
+  transition:box-shadow .25s,transform .25s;
+  flex-shrink:0;
+}
+.logo-mark:hover{transform:scale(1.06);box-shadow:0 0 0 2px rgba(79,124,255,.5),0 8px 28px rgba(79,124,255,.4)}
+.logo-mark svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.logo-name{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:1.4rem;font-weight:700;letter-spacing:-.03em;color:var(--txt);
+}
+.logo-name b{color:var(--acc);font-weight:700}
+.nav-links{
+  display:flex;align-items:center;gap:.2rem;
+  flex:1;justify-content:center;
+}
+.nav-link{
+  font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:500;
+  color:var(--txt2);padding:.45rem .95rem;border-radius:8px;
+  letter-spacing:.01em;transition:color .2s,background-color .2s;
+}
+.nav-link:hover{color:var(--txt);background:var(--bdr)}
+.nav-right{display:flex;align-items:center;gap:.65rem;flex-shrink:0}
 
-                                    <svg class="size-6 shrink-0 stroke-[#FF2D20]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
-                                </div>
-                            </a>
+/* ─── Toggle thème ─── */
+.theme-toggle{
+  position:relative;width:50px;height:28px;border-radius:999px;
+  background:var(--surf2);
+  border:1.5px solid var(--bdr2);
+  cursor:pointer;
+  transition:background-color .3s,border-color .3s;
+  flex-shrink:0;
+}
+.theme-toggle::after{
+  content:'';position:absolute;
+  top:4px;left:4px;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--acc);
+  box-shadow:0 2px 8px rgba(0,0,0,.25);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),background-color .3s;
+}
+[data-theme="light"] .theme-toggle::after{transform:translateX(22px)}
+.toggle-icons{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 6px;pointer-events:none;
+}
+.toggle-icons svg{width:11px;height:11px}
+.ico-moon{color:var(--txt2);transition:opacity .3s}
+.ico-sun{color:var(--gold);opacity:.35;transition:opacity .3s}
+[data-theme="light"] .ico-moon{opacity:.3}
+[data-theme="light"] .ico-sun{opacity:1}
 
-                            <a
-                                href="https://laracasts.com"
-                                class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
-                            >
-                                <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                                    <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g fill="#FF2D20"><path d="M24 8.25a.5.5 0 0 0-.5-.5H.5a.5.5 0 0 0-.5.5v12a2.5 2.5 0 0 0 2.5 2.5h19a2.5 2.5 0 0 0 2.5-2.5v-12Zm-7.765 5.868a1.221 1.221 0 0 1 0 2.264l-6.626 2.776A1.153 1.153 0 0 1 8 18.123v-5.746a1.151 1.151 0 0 1 1.609-1.035l6.626 2.776ZM19.564 1.677a.25.25 0 0 0-.177-.427H15.6a.106.106 0 0 0-.072.03l-4.54 4.543a.25.25 0 0 0 .177.427h3.783c.027 0 .054-.01.073-.03l4.543-4.543ZM22.071 1.318a.047.047 0 0 0-.045.013l-4.492 4.492a.249.249 0 0 0 .038.385.25.25 0 0 0 .14.042h5.784a.5.5 0 0 0 .5-.5v-2a2.5 2.5 0 0 0-1.925-2.432ZM13.014 1.677a.25.25 0 0 0-.178-.427H9.101a.106.106 0 0 0-.073.03l-4.54 4.543a.25.25 0 0 0 .177.427H8.4a.106.106 0 0 0 .073-.03l4.54-4.543ZM6.513 1.677a.25.25 0 0 0-.177-.427H2.5A2.5 2.5 0 0 0 0 3.75v2a.5.5 0 0 0 .5.5h1.4a.106.106 0 0 0 .073-.03l4.54-4.543Z"/></g></svg>
-                                </div>
+.btn-nav-ghost{
+  font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:500;
+  color:var(--txt2);padding:.46rem 1rem;border-radius:8px;
+  border:1.5px solid transparent;
+  transition:color .2s,border-color .2s,background-color .2s;
+}
+.btn-nav-ghost:hover{color:var(--txt);border-color:var(--bdr2);background:var(--surf)}
+.btn-nav-cta{
+  font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:600;
+  color:#fff;padding:.5rem 1.3rem;border-radius:9px;
+  background:var(--acc);border:1.5px solid var(--acc);
+  box-shadow:0 3px 14px rgba(79,124,255,.35);
+  transition:background-color .2s,box-shadow .2s,transform .2s;
+  white-space:nowrap;
+}
+.btn-nav-cta:hover{background:var(--acc2);transform:translateY(-1px);box-shadow:0 6px 22px rgba(79,124,255,.45)}
 
-                                <div class="pt-3 sm:pt-5">
-                                    <h2 class="text-xl font-semibold text-black dark:text-white">Laracasts</h2>
+/* ══════════════════════════════════════════════════════════
+   6. HERO
+══════════════════════════════════════════════════════════ */
+.hero{
+  min-height:92vh;display:flex;align-items:center;
+  padding:5rem 0 4rem;
+  position:relative;overflow:hidden;
+}
+.hero-glow{
+  position:absolute;
+  top:-30%;left:-15%;
+  width:900px;height:900px;
+  border-radius:50%;
+  background:radial-gradient(circle,var(--glow-a) 0%,transparent 65%);
+  pointer-events:none;animation:gFloat 14s ease-in-out infinite alternate;
+}
+.hero-glow2{
+  position:absolute;
+  bottom:-20%;right:-10%;
+  width:600px;height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle,var(--glow-b) 0%,transparent 65%);
+  pointer-events:none;animation:gFloat 18s ease-in-out infinite alternate-reverse;
+}
+@keyframes gFloat{
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(40px,50px) scale(1.08)}
+}
+.hero-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;width:100%;
+}
+/* ── Left ── */
+.hero-left{}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--tag-bg);color:var(--tag-txt);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.67rem;font-weight:500;letter-spacing:.18em;
+  text-transform:uppercase;padding:6px 14px;
+  border-radius:999px;border:1.5px solid rgba(79,124,255,.2);
+  margin-bottom:2rem;
+  animation:fadeUp .6s ease both;
+}
+.chip-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 8px var(--green);
+  animation:pulse-dot 2s infinite;
+}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.hero-h1{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(2.8rem,5.5vw,5rem);
+  font-weight:800;line-height:1.03;letter-spacing:-.04em;
+  color:var(--txt);margin-bottom:1.75rem;
+  animation:fadeUp .6s .1s ease both;
+}
+.hero-h1 .grad-blue{
+  background:linear-gradient(135deg,var(--acc) 0%,#a78bfa 60%,var(--acc) 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:gradShift 4s ease infinite;
+}
+.hero-h1 .grad-gold{
+  background:linear-gradient(135deg,var(--gold) 0%,#fb923c 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+@keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.hero-body{
+  font-size:1.1rem;color:var(--txt2);line-height:1.8;
+  max-width:470px;margin-bottom:2.5rem;font-weight:300;
+  animation:fadeUp .6s .2s ease both;
+}
+.hero-ctas{
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  animation:fadeUp .6s .3s ease both;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:'DM Sans',sans-serif;font-size:.94rem;font-weight:600;
+  color:#fff;padding:.9rem 2.2rem;border-radius:12px;
+  background:var(--acc);border:1.5px solid var(--acc);
+  box-shadow:0 6px 28px rgba(79,124,255,.4);
+  transition:transform .2s,box-shadow .2s,background-color .2s;
+  position:relative;overflow:hidden;
+}
+.btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.12) 0%,transparent 60%);
+  pointer-events:none;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(79,124,255,.5);background:var(--acc2)}
+.btn-primary svg{width:17px;height:17px;transition:transform .2s;flex-shrink:0}
+.btn-primary:hover svg{transform:translateX(4px)}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:'DM Sans',sans-serif;font-size:.94rem;font-weight:500;
+  color:var(--txt2);padding:.9rem 1.7rem;border-radius:12px;
+  border:1.5px solid var(--bdr2);background:transparent;
+  transition:color .2s,background-color .2s,transform .2s,border-color .2s;
+}
+.btn-secondary:hover{color:var(--txt);background:var(--surf);transform:translateY(-1px);border-color:var(--bdr2)}
+.btn-secondary svg{width:17px;height:17px;flex-shrink:0}
+.hero-social{
+  margin-top:2.5rem;display:flex;align-items:center;gap:1.2rem;
+  animation:fadeUp .6s .4s ease both;
+}
+.avatar-stack{display:flex}
+.av-item{
+  width:32px;height:32px;border-radius:50%;
+  border:2.5px solid var(--bg);
+  margin-left:-9px;display:flex;align-items:center;justify-content:center;
+  font-family:'DM Sans',sans-serif;font-size:.55rem;font-weight:700;color:#fff;
+  flex-shrink:0;
+}
+.av-item:first-child{margin-left:0}
+.hero-social-text{font-size:.82rem;color:var(--txt2);line-height:1.5}
+.hero-social-text strong{display:block;color:var(--txt);font-weight:600;margin-bottom:1px}
 
-                                    <p class="mt-4 text-sm/relaxed">
-                                        Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
-                                    </p>
-                                </div>
+/* ── Right: 3D Vault ── */
+.hero-right{
+  perspective:1200px;
+  animation:fadeUp .7s .15s ease both;
+}
+.vault-scene{
+  position:relative;padding:2rem 2rem 2.5rem;
+  transform-style:preserve-3d;
+  transition:transform .12s ease-out;
+}
+/* Carte principale */
+.vault-card{
+  background:var(--surf);
+  border:1px solid var(--bdr2);
+  border-radius:22px;padding:1.8rem;
+  position:relative;overflow:hidden;
+  box-shadow:var(--shadow-card);
+  transform-style:preserve-3d;
+  transition:box-shadow .3s;
+}
+.vault-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--acc),#a78bfa,transparent);
+}
+/* Shine overlay */
+.vault-card::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--card-shine) 0%,transparent 50%);
+  pointer-events:none;border-radius:22px;
+}
+.vc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem}
+.vc-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.67rem;font-weight:500;color:var(--txt2);
+  letter-spacing:.14em;text-transform:uppercase;
+}
+.vc-status{
+  display:flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;
+  color:var(--green);letter-spacing:.06em;
+}
+.status-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 10px var(--green);
+  animation:pulse-dot 3s infinite;
+}
+/* Lignes vault */
+.vc-rows{display:flex;flex-direction:column;gap:.6rem}
+.vc-row{
+  display:flex;align-items:center;gap:12px;
+  padding:.75rem 1rem;border-radius:11px;
+  background:var(--bg2);border:1px solid var(--bdr);
+  cursor:default;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+}
+.vc-row:hover{border-color:var(--acc3);transform:translateX(5px) translateZ(8px);box-shadow:0 4px 20px rgba(79,124,255,.12)}
+.vc-ico{
+  width:35px;height:35px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.05rem;flex-shrink:0;
+}
+.vc-info{flex:1;min-width:0}
+.vc-name{font-size:.84rem;font-weight:600;color:var(--txt);letter-spacing:-.01em}
+.vc-mail{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--txt3);margin-top:1px}
+.vc-shield{
+  width:28px;height:28px;border-radius:7px;
+  background:var(--gold2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.vc-shield svg{width:13px;height:13px;stroke:var(--gold);fill:none;stroke-width:2}
+.vc-footer{
+  margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid var(--bdr);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.vc-enc{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--txt3)}
+.vc-enc svg{width:12px;height:12px;stroke:var(--acc);fill:none;stroke-width:2}
+.vc-count{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--txt2)}
+.vc-count span{color:var(--acc)}
+/* Badges flottants */
+.float-badge{
+  position:absolute;background:var(--surf);
+  border:1.5px solid var(--bdr2);border-radius:14px;
+  padding:.65rem 1rem;display:flex;align-items:center;gap:9px;
+  box-shadow:0 12px 40px rgba(0,0,0,.18);
+  font-size:.8rem;white-space:nowrap;
+  transform:translateZ(30px);
+}
+[data-theme="light"] .float-badge{box-shadow:0 6px 24px rgba(0,0,0,.1)}
+.fb1{top:-18px;right:-8px;animation:fbFloat 4s ease-in-out infinite alternate}
+.fb2{bottom:-14px;left:-14px;animation:fbFloat 4s 2s ease-in-out infinite alternate-reverse}
+@keyframes fbFloat{from{transform:translateZ(30px) translateY(0)}to{transform:translateZ(30px) translateY(-10px)}}
+.fb-icon{font-size:1.1rem}
+.fb-text{}
+.fb-text strong{display:block;font-family:'DM Sans',sans-serif;font-size:.79rem;font-weight:600;color:var(--txt)}
+.fb-text span{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--txt3)}
 
-                                <svg class="size-6 shrink-0 self-center stroke-[#FF2D20]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
-                            </a>
+/* ══════════════════════════════════════════════════════════
+   7. STRIP LOGOS
+══════════════════════════════════════════════════════════ */
+.strip{
+  border-top:1px solid var(--bdr);
+  border-bottom:1px solid var(--bdr);
+  padding:1.6rem 0;
+  background:var(--bg2);
+  transition:background-color .35s;
+}
+.strip-inner{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.strip-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.63rem;color:var(--txt3);letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;
+}
+.strip-logos{display:flex;align-items:center;gap:2.5rem;flex-wrap:wrap}
+.strip-logo{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:.85rem;font-weight:700;color:var(--txt3);
+  letter-spacing:.04em;transition:color .2s;
+}
+.strip-logo:hover{color:var(--txt2)}
 
-                            <a
-                                href="https://laravel-news.com"
-                                class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
-                            >
-                                <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                                    <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g fill="#FF2D20"><path d="M8.75 4.5H5.5c-.69 0-1.25.56-1.25 1.25v4.75c0 .69.56 1.25 1.25 1.25h3.25c.69 0 1.25-.56 1.25-1.25V5.75c0-.69-.56-1.25-1.25-1.25Z"/><path d="M24 10a3 3 0 0 0-3-3h-2V2.5a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2V20a3.5 3.5 0 0 0 3.5 3.5h17A3.5 3.5 0 0 0 24 20V10ZM3.5 21.5A1.5 1.5 0 0 1 2 20V3a.5.5 0 0 1 .5-.5h14a.5.5 0 0 1 .5.5v17c0 .295.037.588.11.874a.5.5 0 0 1-.484.625L3.5 21.5ZM22 20a1.5 1.5 0 1 1-3 0V9.5a.5.5 0 0 1 .5-.5H21a1 1 0 0 1 1 1v10Z"/><path d="M12.751 6.047h2a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-2A.75.75 0 0 1 12 7.3v-.5a.75.75 0 0 1 .751-.753ZM12.751 10.047h2a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-2A.75.75 0 0 1 12 11.3v-.5a.75.75 0 0 1 .751-.753ZM4.751 14.047h10a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-10A.75.75 0 0 1 4 15.3v-.5a.75.75 0 0 1 .751-.753ZM4.75 18.047h7.5a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-7.5A.75.75 0 0 1 4 19.3v-.5a.75.75 0 0 1 .75-.753Z"/></g></svg>
-                                </div>
+/* ══════════════════════════════════════════════════════════
+   8. SECTION COMMONS
+══════════════════════════════════════════════════════════ */
+.s-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.64rem;font-weight:500;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--acc);
+  display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;
+}
+.s-label::before{content:'';display:inline-block;width:26px;height:1.5px;background:var(--acc);border-radius:2px}
+.s-label.center{justify-content:center}
+.s-label.center::before{display:none}
+.s-h2{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(2rem,3.8vw,2.9rem);
+  font-weight:700;line-height:1.1;letter-spacing:-.03em;color:var(--txt);
+}
+.s-p{font-size:.99rem;color:var(--txt2);line-height:1.8;font-weight:300}
+.acc{color:var(--acc)}
 
-                                <div class="pt-3 sm:pt-5">
-                                    <h2 class="text-xl font-semibold text-black dark:text-white">Laravel News</h2>
+/* ══════════════════════════════════════════════════════════
+   9. PROBLÈME
+══════════════════════════════════════════════════════════ */
+.problem{padding:9rem 0}
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.prob-p{color:var(--txt2);line-height:1.8;font-size:1rem;font-weight:300;margin-top:1.25rem}
+.prob-p strong{color:var(--txt);font-weight:600}
+.risk-list{display:flex;flex-direction:column;gap:1rem}
+.risk-item{
+  display:flex;gap:1.1rem;padding:1.25rem 1.5rem;
+  border:1px solid var(--bdr);border-radius:14px;
+  background:var(--surf);cursor:default;
+  transition:border-color .25s,transform .25s,box-shadow .25s;
+  position:relative;overflow:hidden;
+}
+.risk-item::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--acc);border-radius:3px 0 0 3px;
+  transform:scaleY(0);transform-origin:bottom;transition:transform .3s;
+}
+.risk-item:hover::before{transform:scaleY(1)}
+.risk-item:hover{border-color:rgba(79,124,255,.25);transform:translateX(5px);box-shadow:var(--shadow-sm)}
+.risk-stat{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:1.5rem;font-weight:800;color:var(--acc);
+  line-height:1;flex-shrink:0;min-width:48px;
+}
+.risk-title{font-size:.92rem;font-weight:600;color:var(--txt);margin-bottom:.25rem;letter-spacing:-.01em}
+.risk-desc{font-size:.81rem;color:var(--txt2);line-height:1.65;font-weight:300}
 
-                                    <p class="mt-4 text-sm/relaxed">
-                                        Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
-                                    </p>
-                                </div>
+/* ══════════════════════════════════════════════════════════
+   10. FEATURES BENTO GRID
+══════════════════════════════════════════════════════════ */
+.features{padding:8rem 0}
+.feat-head{text-align:center;max-width:580px;margin:0 auto 5rem}
+.feat-head .s-label{justify-content:center}
+.feat-head .s-label::before{display:none}
+.bento{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:auto;gap:1.2rem}
+/* card base */
+.bcard{
+  background:var(--surf);border:1px solid var(--bdr);
+  border-radius:18px;padding:2rem;
+  position:relative;overflow:hidden;
+  cursor:default;
+  /* 3D tilt initialisation */
+  transform-style:preserve-3d;
+  transform:perspective(900px) rotateX(0deg) rotateY(0deg);
+  transition:border-color .3s,box-shadow .15s;
+  will-change:transform;
+}
+.bcard::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--card-shine) 0%,transparent 50%);
+  border-radius:18px;pointer-events:none;
+  opacity:0;transition:opacity .3s;
+}
+.bcard:hover::before{opacity:1}
+.bcard::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--glow-a) 0%,transparent 60%);
+  opacity:0;transition:opacity .4s;pointer-events:none;
+}
+.bcard:hover::after{opacity:.5}
+.bcard:hover{border-color:rgba(79,124,255,.28);box-shadow:0 20px 60px rgba(0,0,0,.15),0 0 0 1px rgba(79,124,255,.1)}
+[data-theme="light"] .bcard:hover{box-shadow:0 12px 40px rgba(0,0,0,.08),0 0 0 1px rgba(41,82,227,.1)}
+/* wide card */
+.bcard.wide{grid-column:span 2}
+/* card icon */
+.bcard-ico{
+  width:48px;height:48px;border-radius:13px;
+  background:var(--tag-bg);border:1px solid rgba(79,124,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.4rem;transition:box-shadow .3s;
+  transform:translateZ(12px);
+}
+.bcard:hover .bcard-ico{box-shadow:0 0 24px rgba(79,124,255,.3)}
+.bcard-ico svg{width:23px;height:23px;stroke:var(--acc);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.bcard-tag{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;font-size:.61rem;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--tag-txt);background:var(--tag-bg);
+  padding:3px 9px;border-radius:5px;margin-bottom:.75rem;
+}
+.bcard-h3{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:1.08rem;font-weight:700;color:var(--txt);
+  margin-bottom:.6rem;letter-spacing:-.02em;line-height:1.2;
+  transform:translateZ(8px);
+}
+.bcard-p{font-size:.84rem;color:var(--txt2);line-height:1.75;font-weight:300}
+.bcard-metric{
+  margin-top:1.5rem;padding-top:1.4rem;border-top:1px solid var(--bdr);
+  display:flex;align-items:baseline;gap:7px;
+}
+.metric-val{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:2.2rem;font-weight:800;color:var(--acc);
+  line-height:1;letter-spacing:-.04em;
+  transform:translateZ(6px);
+}
+.metric-lbl{font-size:.78rem;color:var(--txt3);font-weight:400}
+/* mini bar chart */
+.mini-chart{margin-top:1.5rem;height:54px;display:flex;align-items:flex-end;gap:5px}
+.bar{flex:1;border-radius:4px 4px 0 0;background:var(--acc);opacity:.12;transition:opacity .3s,height .5s ease}
+.bar.hi{opacity:.7}
+.bcard:hover .bar{opacity:.2}
+.bcard:hover .bar.hi{opacity:1}
 
-                                <svg class="size-6 shrink-0 self-center stroke-[#FF2D20]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
-                            </a>
+/* ══════════════════════════════════════════════════════════
+   11. STATS BAND
+══════════════════════════════════════════════════════════ */
+.stats-band{padding:6rem 0}
+.stats-box{
+  background:var(--surf);border:1px solid var(--bdr);
+  border-radius:22px;padding:4rem 3rem;
+  position:relative;overflow:hidden;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;
+}
+.stats-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1.5px;
+  background:linear-gradient(90deg,transparent,var(--acc) 40%,var(--gold) 60%,transparent);
+}
+.stats-box::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 70% at 50% 0%,var(--glow-a),transparent);
+  pointer-events:none;
+}
+.st-col{text-align:center;position:relative;z-index:1}
+.st-col:not(:last-child)::after{
+  content:'';position:absolute;right:0;top:15%;bottom:15%;
+  width:1px;background:var(--bdr);
+}
+.st-val{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:3rem;font-weight:800;line-height:1;
+  color:var(--txt);margin-bottom:.55rem;letter-spacing:-.05em;
+  display:flex;align-items:baseline;justify-content:center;gap:2px;
+}
+.st-val .acc{color:var(--acc)}
+.st-strong{display:block;font-size:.88rem;font-weight:600;color:var(--txt);margin-bottom:3px;letter-spacing:-.01em}
+.st-sub{font-size:.79rem;color:var(--txt2);line-height:1.5;font-weight:300}
 
-                            <div class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
-                                <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                                    <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <g fill="#FF2D20">
-                                            <path
-                                                d="M16.597 12.635a.247.247 0 0 0-.08-.237 2.234 2.234 0 0 1-.769-1.68c.001-.195.03-.39.084-.578a.25.25 0 0 0-.09-.267 8.8 8.8 0 0 0-4.826-1.66.25.25 0 0 0-.268.181 2.5 2.5 0 0 1-2.4 1.824.045.045 0 0 0-.045.037 12.255 12.255 0 0 0-.093 3.86.251.251 0 0 0 .208.214c2.22.366 4.367 1.08 6.362 2.118a.252.252 0 0 0 .32-.079 10.09 10.09 0 0 0 1.597-3.733ZM13.616 17.968a.25.25 0 0 0-.063-.407A19.697 19.697 0 0 0 8.91 15.98a.25.25 0 0 0-.287.325c.151.455.334.898.548 1.328.437.827.981 1.594 1.619 2.28a.249.249 0 0 0 .32.044 29.13 29.13 0 0 0 2.506-1.99ZM6.303 14.105a.25.25 0 0 0 .265-.274 13.048 13.048 0 0 1 .205-4.045.062.062 0 0 0-.022-.07 2.5 2.5 0 0 1-.777-.982.25.25 0 0 0-.271-.149 11 11 0 0 0-5.6 2.815.255.255 0 0 0-.075.163c-.008.135-.02.27-.02.406.002.8.084 1.598.246 2.381a.25.25 0 0 0 .303.193 19.924 19.924 0 0 1 5.746-.438ZM9.228 20.914a.25.25 0 0 0 .1-.393 11.53 11.53 0 0 1-1.5-2.22 12.238 12.238 0 0 1-.91-2.465.248.248 0 0 0-.22-.187 18.876 18.876 0 0 0-5.69.33.249.249 0 0 0-.179.336c.838 2.142 2.272 4 4.132 5.353a.254.254 0 0 0 .15.048c1.41-.01 2.807-.282 4.117-.802ZM18.93 12.957l-.005-.008a.25.25 0 0 0-.268-.082 2.21 2.21 0 0 1-.41.081.25.25 0 0 0-.217.2c-.582 2.66-2.127 5.35-5.75 7.843a.248.248 0 0 0-.09.299.25.25 0 0 0 .065.091 28.703 28.703 0 0 0 2.662 2.12.246.246 0 0 0 .209.037c2.579-.701 4.85-2.242 6.456-4.378a.25.25 0 0 0 .048-.189 13.51 13.51 0 0 0-2.7-6.014ZM5.702 7.058a.254.254 0 0 0 .2-.165A2.488 2.488 0 0 1 7.98 5.245a.093.093 0 0 0 .078-.062 19.734 19.734 0 0 1 3.055-4.74.25.25 0 0 0-.21-.41 12.009 12.009 0 0 0-10.4 8.558.25.25 0 0 0 .373.281 12.912 12.912 0 0 1 4.826-1.814ZM10.773 22.052a.25.25 0 0 0-.28-.046c-.758.356-1.55.635-2.365.833a.25.25 0 0 0-.022.48c1.252.43 2.568.65 3.893.65.1 0 .2 0 .3-.008a.25.25 0 0 0 .147-.444c-.526-.424-1.1-.917-1.673-1.465ZM18.744 8.436a.249.249 0 0 0 .15.228 2.246 2.246 0 0 1 1.352 2.054c0 .337-.08.67-.23.972a.25.25 0 0 0 .042.28l.007.009a15.016 15.016 0 0 1 2.52 4.6.25.25 0 0 0 .37.132.25.25 0 0 0 .096-.114c.623-1.464.944-3.039.945-4.63a12.005 12.005 0 0 0-5.78-10.258.25.25 0 0 0-.373.274c.547 2.109.85 4.274.901 6.453ZM9.61 5.38a.25.25 0 0 0 .08.31c.34.24.616.561.8.935a.25.25 0 0 0 .3.127.631.631 0 0 1 .206-.034c2.054.078 4.036.772 5.69 1.991a.251.251 0 0 0 .267.024c.046-.024.093-.047.141-.067a.25.25 0 0 0 .151-.23A29.98 29.98 0 0 0 15.957.764a.25.25 0 0 0-.16-.164 11.924 11.924 0 0 0-2.21-.518.252.252 0 0 0-.215.076A22.456 22.456 0 0 0 9.61 5.38Z"
-                                            />
-                                        </g>
-                                    </svg>
-                                </div>
+/* ══════════════════════════════════════════════════════════
+   12. COMMENT ÇA MARCHE
+══════════════════════════════════════════════════════════ */
+.how{padding:8rem 0}
+.how-head{text-align:center;max-width:560px;margin:0 auto 5rem}
+.how-head .s-label{justify-content:center}
+.how-head .s-label::before{display:none}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;position:relative}
+.how-grid::before{
+  content:'';position:absolute;
+  top:38px;left:calc(100%/6);right:calc(100%/6);
+  border-top:1.5px dashed var(--bdr2);pointer-events:none;
+}
+.how-step{
+  background:var(--surf);border:1px solid var(--bdr);
+  border-radius:18px;padding:2.2rem 1.75rem;
+  text-align:center;
+  transition:border-color .3s,box-shadow .3s,transform .3s;
+}
+.how-step:hover{border-color:rgba(79,124,255,.3);box-shadow:0 0 0 5px rgba(79,124,255,.07),var(--shadow-sm);transform:translateY(-4px)}
+.step-num{
+  width:68px;height:68px;border-radius:50%;
+  background:var(--bg2);
+  border:2px solid var(--bdr2);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;
+  transition:border-color .3s,box-shadow .3s;
+}
+.how-step:hover .step-num{border-color:var(--acc);box-shadow:0 0 0 7px rgba(79,124,255,.1)}
+.step-n{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:1.5rem;font-weight:800;color:var(--acc);letter-spacing:-.04em;
+}
+.step-title{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:1.05rem;font-weight:700;color:var(--txt);
+  margin-bottom:.6rem;letter-spacing:-.02em;
+}
+.step-desc{font-size:.84rem;color:var(--txt2);line-height:1.75;font-weight:300}
 
-                                <div class="pt-3 sm:pt-5">
-                                    <h2 class="text-xl font-semibold text-black dark:text-white">Vibrant Ecosystem</h2>
+/* ══════════════════════════════════════════════════════════
+   13. TÉMOIGNAGES
+══════════════════════════════════════════════════════════ */
+.testi{padding:8rem 0}
+.testi-head{text-align:center;margin-bottom:4rem}
+.testi-head .s-label{justify-content:center}
+.testi-head .s-label::before{display:none}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.tcard{
+  background:var(--surf);border:1px solid var(--bdr);
+  border-radius:18px;padding:2.1rem;
+  display:flex;flex-direction:column;
+  transition:border-color .3s,transform .3s,box-shadow .3s;
+}
+.tcard:hover{border-color:var(--bdr2);transform:translateY(-5px);box-shadow:var(--shadow-card)}
+.tcard-stars{display:flex;gap:3px;margin-bottom:1.1rem}
+.star{color:var(--gold);font-size:.9rem}
+.tcard-quote{
+  font-size:.9rem;line-height:1.78;color:var(--txt2);
+  font-weight:300;flex:1;margin-bottom:1.6rem;
+  font-style:italic;
+}
+.tcard-quote strong{color:var(--acc);font-style:normal;font-weight:600;font-size:.88rem}
+.tcard-auth{display:flex;align-items:center;gap:11px}
+.tcard-av{
+  width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;color:#fff;flex-shrink:0;
+}
+.tav-a{background:linear-gradient(135deg,#4F7CFF,#7c3aed)}
+.tav-b{background:linear-gradient(135deg,#06b6d4,#4F7CFF)}
+.tav-c{background:linear-gradient(135deg,#f97316,#FFB443)}
+.tcard-name{font-size:.87rem;font-weight:600;color:var(--txt);letter-spacing:-.01em}
+.tcard-role{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--txt3);margin-top:2px}
 
-                                    <p class="mt-4 text-sm/relaxed">
-                                        Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white dark:focus-visible:ring-[#FF2D20]">Forge</a>, <a href="https://vapor.laravel.com" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Vapor</a>, <a href="https://nova.laravel.com" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Nova</a>, <a href="https://envoyer.io" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Envoyer</a>, and <a href="https://herd.laravel.com" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Herd</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Echo</a>, <a href="https://laravel.com/docs/horizon" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Telescope</a>, and more.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </main>
+/* ══════════════════════════════════════════════════════════
+   14. PRICING
+══════════════════════════════════════════════════════════ */
+.pricing{padding:8rem 0}
+.pricing-head{text-align:center;margin-bottom:4rem}
+.pricing-head .s-label{justify-content:center}
+.pricing-head .s-label::before{display:none}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.pcard{
+  background:var(--surf);border:1px solid var(--bdr);
+  border-radius:18px;padding:2.5rem 2.1rem;
+  position:relative;
+  transition:border-color .3s,transform .3s,box-shadow .3s;
+}
+.pcard:hover{border-color:var(--bdr2);transform:translateY(-5px);box-shadow:var(--shadow-card)}
+.pcard.pop{
+  border-color:var(--acc);
+  box-shadow:0 0 0 1.5px var(--acc),0 20px 50px rgba(79,124,255,.18);
+}
+.pop-tag{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  background:var(--acc);color:#fff;
+  font-family:'JetBrains Mono',monospace;font-size:.61rem;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 16px;border-radius:999px;white-space:nowrap;
+}
+.plan-tier{
+  font-family:'JetBrains Mono',monospace;font-size:.67rem;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--txt3);margin-bottom:1.1rem;
+}
+.plan-price-wrap{display:flex;align-items:baseline;gap:4px;margin-bottom:.4rem}
+.plan-price{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:2.8rem;font-weight:800;color:var(--txt);
+  line-height:1;letter-spacing:-.05em;
+}
+.plan-per{font-size:.83rem;color:var(--txt3);font-weight:400}
+.plan-desc{font-size:.83rem;color:var(--txt2);margin-bottom:1.75rem;line-height:1.6;font-weight:300}
+.plan-sep{height:1px;background:var(--bdr);margin-bottom:1.75rem}
+.plan-list{list-style:none;display:flex;flex-direction:column;gap:.72rem}
+.plan-item{display:flex;align-items:center;gap:8px;font-size:.84rem;color:var(--txt2);font-weight:400}
+.plan-item svg{width:15px;height:15px;stroke:var(--green);fill:none;stroke-width:2.5;flex-shrink:0}
+.plan-btn{
+  display:block;width:100%;text-align:center;
+  margin-top:2rem;padding:.85rem;border-radius:11px;
+  font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;
+  transition:all .2s;letter-spacing:.005em;
+}
+.pb-outline{border:1.5px solid var(--bdr2);color:var(--txt);background:transparent}
+.pb-outline:hover{background:var(--surf2);border-color:var(--bdr2)}
+.pb-filled{background:var(--acc);color:#fff;border:1.5px solid var(--acc);box-shadow:0 5px 22px rgba(79,124,255,.32)}
+.pb-filled:hover{background:var(--acc2);box-shadow:0 8px 30px rgba(79,124,255,.42);transform:translateY(-1px)}
 
-                    <footer class="py-16 text-center text-sm text-black dark:text-white/70">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-                    </footer>
-                </div>
-            </div>
+/* ══════════════════════════════════════════════════════════
+   15. CTA FINAL
+══════════════════════════════════════════════════════════ */
+.cta-section{padding:8rem 0}
+.cta-box{
+  background:var(--surf);border:1px solid var(--bdr);
+  border-radius:28px;padding:6rem 4rem;
+  text-align:center;position:relative;overflow:hidden;
+}
+.cta-box::before{
+  content:'';position:absolute;top:0;left:15%;right:15%;height:1.5px;
+  background:linear-gradient(90deg,transparent,var(--acc),#a78bfa,transparent);
+}
+.cta-box::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 0%,var(--glow-a),transparent);
+  pointer-events:none;
+}
+.cta-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--tag-bg);color:var(--tag-txt);
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;
+  padding:6px 16px;border-radius:999px;border:1.5px solid rgba(79,124,255,.2);
+  margin-bottom:2rem;position:relative;z-index:1;
+}
+.cta-h2{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(2.4rem,5vw,4rem);font-weight:800;
+  line-height:1.04;letter-spacing:-.04em;color:var(--txt);
+  margin-bottom:1.25rem;position:relative;z-index:1;
+}
+.cta-p{
+  color:var(--txt2);max-width:490px;margin:0 auto 2.75rem;
+  font-size:1.05rem;line-height:1.8;font-weight:300;
+  position:relative;z-index:1;
+}
+.cta-acts{
+  display:flex;align-items:center;justify-content:center;gap:1rem;
+  flex-wrap:wrap;position:relative;z-index:1;
+}
+.cta-trust{
+  margin-top:1.75rem;font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;color:var(--txt3);letter-spacing:.06em;
+  position:relative;z-index:1;display:flex;align-items:center;
+  justify-content:center;gap:.75rem;flex-wrap:wrap;
+}
+.cta-trust-item{display:flex;align-items:center;gap:5px}
+.cta-trust-item svg{width:11px;height:11px;stroke:var(--green);fill:none;stroke-width:2.5}
+
+/* ══════════════════════════════════════════════════════════
+   16. FOOTER
+══════════════════════════════════════════════════════════ */
+.footer{border-top:1px solid var(--bdr);padding:2.5rem 0 2rem;transition:border-color .35s}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-copy{font-size:.78rem;color:var(--txt3);font-weight:400}
+.footer-copy span{color:var(--acc)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{font-size:.79rem;color:var(--txt3);transition:color .2s;font-weight:500}
+.footer-links a:hover{color:var(--txt2)}
+
+/* ══════════════════════════════════════════════════════════
+   17. REVEAL ANIMATION
+══════════════════════════════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══════════════════════════════════════════════════════════
+   18. RESPONSIVE
+══════════════════════════════════════════════════════════ */
+@media(max-width:1060px){
+  .hero-grid{grid-template-columns:1fr;padding:5rem 0 3rem}
+  .hero-right{display:none}
+  .prob-grid{grid-template-columns:1fr;gap:3rem}
+  .bento{grid-template-columns:repeat(2,1fr)}
+  .bcard.wide{grid-column:span 2}
+  .stats-box{grid-template-columns:repeat(2,1fr)}
+  .st-col:nth-child(2)::after{display:none}
+  .testi-grid{grid-template-columns:repeat(2,1fr)}
+  .pricing-grid{grid-template-columns:repeat(2,1fr)}
+  .nav-links{display:none}
+}
+@media(max-width:720px){
+  .hero{padding:4rem 0 3rem;min-height:auto}
+  .hero-h1{font-size:2.5rem}
+  .bento{grid-template-columns:1fr}
+  .bcard.wide{grid-column:span 1}
+  .stats-box{grid-template-columns:1fr 1fr;padding:2.5rem 1.5rem}
+  .how-grid{grid-template-columns:1fr}
+  .how-grid::before{display:none}
+  .testi-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .cta-box{padding:3.5rem 1.5rem}
+  .footer-inner{flex-direction:column;text-align:center}
+  .strip-logos{gap:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<!-- ════════════════════════════════
+     NAV
+════════════════════════════════ -->
+<header class="nav">
+  <div class="wrap">
+    <div class="nav-inner">
+
+      <a href="/" class="logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2.5"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </div>
-    </body>
+        <span class="logo-name">La<b>kile</b></span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a class="nav-link" href="#features">Fonctionnalités</a>
+        <a class="nav-link" href="#how">Comment ça marche</a>
+        <a class="nav-link" href="#pricing">Tarifs</a>
+        <a class="nav-link" href="#testi">Témoignages</a>
+      </nav>
+
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle" aria-label="Basculer le thème clair/sombre">
+          <span class="toggle-icons" aria-hidden="true">
+            <svg class="ico-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </span>
+        </button>
+        @if (Route::has('login'))
+          @auth
+            <a href="{{ url('/dashboard') }}" class="btn-nav-cta">Tableau de bord</a>
+          @else
+            <a href="{{ route('login') }}" class="btn-nav-ghost">Connexion</a>
+            @if (Route::has('register'))
+              <a href="{{ route('register') }}" class="btn-nav-cta">Essai gratuit →</a>
+            @endif
+          @endauth
+        @endif
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════
+     HERO
+════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+
+      <!-- Texte gauche -->
+      <div class="hero-left">
+        <div class="chip">
+          <span class="chip-dot"></span>
+          Chiffrement AES-256 · Zero-knowledge
+        </div>
+        <h1 class="hero-h1">
+          Vos accès critiques,<br>
+          <span class="grad-blue">blindés</span> &amp;<br>
+          <span class="grad-gold">toujours sûrs.</span>
+        </h1>
+        <p class="hero-body">
+          Lakile centralise tous les mots de passe de votre entreprise dans un coffre-fort chiffré, partageable par équipe, auditable et conforme. Zéro tableur. Zéro faille.
+        </p>
+        <div class="hero-ctas">
+          @if (Route::has('register'))
+            <a href="{{ route('register') }}" class="btn-primary">
+              Démarrer gratuitement
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          @endif
+          <a href="#features" class="btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+            Voir la démo
+          </a>
+        </div>
+        <div class="hero-social">
+          <div class="avatar-stack">
+            <div class="av-item" style="background:linear-gradient(135deg,#4F7CFF,#7c3aed)">MB</div>
+            <div class="av-item" style="background:linear-gradient(135deg,#06b6d4,#4F7CFF)">KD</div>
+            <div class="av-item" style="background:linear-gradient(135deg,#f97316,#FFB443)">AT</div>
+            <div class="av-item" style="background:linear-gradient(135deg,#22d3a4,#06b6d4)">RL</div>
+            <div class="av-item" style="background:linear-gradient(135deg,#a78bfa,#4F7CFF)">+</div>
+          </div>
+          <div class="hero-social-text">
+            <strong>+2 400 équipes sécurisées</strong>
+            Déployé dans 18 pays · Noté 4.9⁄5
+          </div>
+        </div>
+      </div>
+
+      <!-- Vault 3D droit -->
+      <div class="hero-right">
+        <div class="vault-scene" id="vaultScene">
+          <div class="float-badge fb1">
+            <span class="fb-icon">🔒</span>
+            <div class="fb-text">
+              <strong>Chiffrement actif</strong>
+              <span>AES-256 · Zero-knowledge</span>
+            </div>
+          </div>
+
+          <div class="vault-card">
+            <div class="vc-top">
+              <span class="vc-label">Coffre-fort équipe</span>
+              <span class="vc-status"><span class="status-dot"></span>Sécurisé</span>
+            </div>
+            <div class="vc-rows">
+              <div class="vc-row">
+                <div class="vc-ico" style="background:rgba(79,124,255,.12)">🌐</div>
+                <div class="vc-info">
+                  <div class="vc-name">Production · AWS</div>
+                  <div class="vc-mail">ops@entreprise.com</div>
+                </div>
+                <div class="vc-shield"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+              </div>
+              <div class="vc-row">
+                <div class="vc-ico" style="background:rgba(34,211,164,.1)">💼</div>
+                <div class="vc-info">
+                  <div class="vc-name">Salesforce CRM</div>
+                  <div class="vc-mail">sales@entreprise.com</div>
+                </div>
+                <div class="vc-shield"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+              </div>
+              <div class="vc-row">
+                <div class="vc-ico" style="background:rgba(255,180,67,.1)">🏦</div>
+                <div class="vc-info">
+                  <div class="vc-name">Banque · SGBM</div>
+                  <div class="vc-mail">finance@entreprise.com</div>
+                </div>
+                <div class="vc-shield"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+              </div>
+              <div class="vc-row">
+                <div class="vc-ico" style="background:rgba(167,139,250,.1)">☁️</div>
+                <div class="vc-info">
+                  <div class="vc-name">Google Workspace</div>
+                  <div class="vc-mail">admin@entreprise.com</div>
+                </div>
+                <div class="vc-shield"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+              </div>
+            </div>
+            <div class="vc-footer">
+              <span class="vc-enc">
+                <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Chiffré bout-en-bout
+              </span>
+              <span class="vc-count"><span>247</span> identifiants</span>
+            </div>
+          </div>
+
+          <div class="float-badge fb2">
+            <span class="fb-icon">✅</span>
+            <div class="fb-text">
+              <strong>Accès révoqué</strong>
+              <span>Thomas D. · il y a 2 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     STRIP LOGOS
+════════════════════════════════ -->
+<div class="strip">
+  <div class="wrap">
+    <div class="strip-inner">
+      <span class="strip-label">Ils nous font confiance</span>
+      <div class="strip-logos">
+        <span class="strip-logo">NEXAGROUP</span>
+        <span class="strip-logo">TECHBUILD</span>
+        <span class="strip-logo">OMNIBANK</span>
+        <span class="strip-logo">DIGITORA</span>
+        <span class="strip-logo">VELOCLOUD</span>
+        <span class="strip-logo">AXIOLAB</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     PROBLÈME
+════════════════════════════════ -->
+<section class="problem" id="problem">
+  <div class="wrap">
+    <div class="prob-grid">
+      <div class="reveal">
+        <div class="s-label">Le problème</div>
+        <h2 class="s-h2">Chaque jour sans Lakile,<br>votre sécurité est exposée.</h2>
+        <p class="prob-p">Les entreprises perdent en moyenne <strong>4,35 M$</strong> par violation de données. La cause #1&nbsp;? Des mots de passe partagés sur Slack, dans des tableurs, ou réutilisés. Lakile élimine ces risques à la racine.</p>
+      </div>
+      <div class="risk-list reveal">
+        <div class="risk-item">
+          <div class="risk-stat">81%</div>
+          <div>
+            <div class="risk-title">Des violations liées aux mots de passe</div>
+            <div class="risk-desc">La majorité des cyberattaques exploitent des credentials faibles ou compromis. Votre entreprise n'est pas immunisée.</div>
+          </div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-stat">↑3×</div>
+          <div>
+            <div class="risk-title">Plus de risque lors d'un départ</div>
+            <div class="risk-desc">Chaque collaborateur qui part emporte potentiellement l'accès à des dizaines de comptes critiques.</div>
+          </div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-stat">0s</div>
+          <div>
+            <div class="risk-title">Délai de révocation avec Lakile</div>
+            <div class="risk-desc">Révoquez tous les accès d'un collaborateur en un clic, instantanément, depuis n'importe où.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     FEATURES
+════════════════════════════════ -->
+<section class="features" id="features">
+  <div class="wrap">
+    <div class="feat-head reveal">
+      <div class="s-label center">Fonctionnalités</div>
+      <h2 class="s-h2" style="margin-bottom:.9rem">La sécurité,<br>sans la complexité.</h2>
+      <p class="s-p">Conçu pour les DSI exigeants et les équipes qui avancent vite.</p>
+    </div>
+    <div class="bento reveal" id="bentoGrid">
+      <!-- Grande carte -->
+      <div class="bcard wide" data-tilt>
+        <span class="bcard-tag">Core</span>
+        <div class="bcard-ico"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3 class="bcard-h3">Coffre-fort zero-knowledge</h3>
+        <p class="bcard-p">Vos données sont chiffrées côté client avant d'atteindre nos serveurs. Même notre équipe ne peut pas lire vos mots de passe — c'est mathématiquement impossible.</p>
+        <div class="mini-chart">
+          <div class="bar" style="height:28%"></div><div class="bar" style="height:48%"></div>
+          <div class="bar" style="height:38%"></div><div class="bar" style="height:62%"></div>
+          <div class="bar hi" style="height:80%"></div><div class="bar" style="height:68%"></div>
+          <div class="bar" style="height:85%"></div><div class="bar hi" style="height:100%"></div>
+          <div class="bar" style="height:88%"></div><div class="bar" style="height:94%"></div>
+          <div class="bar hi" style="height:100%"></div><div class="bar" style="height:90%"></div>
+        </div>
+      </div>
+      <!-- Carte équipes -->
+      <div class="bcard" data-tilt>
+        <span class="bcard-tag">Contrôle</span>
+        <div class="bcard-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3 class="bcard-h3">Gestion équipes & rôles</h3>
+        <p class="bcard-p">Permissions granulaires par rôle, projet ou département. Chacun accède uniquement à ce dont il a besoin.</p>
+        <div class="bcard-metric"><span class="metric-val">∞</span><span class="metric-lbl">utilisateurs par org.</span></div>
+      </div>
+      <!-- Carte audit -->
+      <div class="bcard" data-tilt>
+        <span class="bcard-tag">Conformité</span>
+        <div class="bcard-ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <h3 class="bcard-h3">Journal d'audit complet</h3>
+        <p class="bcard-p">Chaque action est tracée. Prêt pour vos audits ISO 27001 et RGPD.</p>
+        <div class="bcard-metric"><span class="metric-val">100%</span><span class="metric-lbl">traçabilité des accès</span></div>
+      </div>
+      <!-- Carte SSO -->
+      <div class="bcard" data-tilt>
+        <span class="bcard-tag">Intégration</span>
+        <div class="bcard-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <h3 class="bcard-h3">SSO · SAML · Active Directory</h3>
+        <p class="bcard-p">Compatible Azure AD, Okta, Google Workspace. Déploiement en quelques minutes.</p>
+      </div>
+      <!-- Carte partage -->
+      <div class="bcard" data-tilt>
+        <span class="bcard-tag">Collaboration</span>
+        <div class="bcard-ico"><svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></div>
+        <h3 class="bcard-h3">Partage sécurisé par lien</h3>
+        <p class="bcard-p">Partagez un accès via lien chiffré à durée limitée. Révocable en 1 clic.</p>
+      </div>
+      <!-- Carte alertes -->
+      <div class="bcard" data-tilt>
+        <span class="bcard-tag">Intelligence</span>
+        <div class="bcard-ico"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <h3 class="bcard-h3">Alertes & détection de fuites</h3>
+        <p class="bcard-p">Monitoring 24/7 des bases de fuites connues. Alertes instantanées sur credentials compromis.</p>
+        <div class="bcard-metric"><span class="metric-val" style="color:var(--gold)">24/7</span><span class="metric-lbl">surveillance active</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     STATS
+════════════════════════════════ -->
+<section class="stats-band">
+  <div class="wrap">
+    <div class="stats-box reveal">
+      <div class="st-col">
+        <div class="st-val"><span id="c1">256</span><span class="acc">-bit</span></div>
+        <span class="st-strong">Chiffrement AES</span>
+        <span class="st-sub">Standard militaire, certifié FIPS 140-2</span>
+      </div>
+      <div class="st-col">
+        <div class="st-val"><span class="acc"><span id="c2">0</span></span></div>
+        <span class="st-strong">Violation enregistrée</span>
+        <span class="st-sub">Depuis notre lancement en 2021</span>
+      </div>
+      <div class="st-col">
+        <div class="st-val"><span id="c3">99</span><span class="acc">.<span id="c4">9</span>%</span></div>
+        <span class="st-strong">Uptime garanti</span>
+        <span class="st-sub">Infrastructure multi-région redondante</span>
+      </div>
+      <div class="st-col">
+        <div class="st-val"><span id="c5">2</span><span class="acc">min</span></div>
+        <span class="st-strong">Pour démarrer</span>
+        <span class="st-sub">Onboarding guidé, sans carte bancaire</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     COMMENT ÇA MARCHE
+════════════════════════════════ -->
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="how-head reveal">
+      <div class="s-label center">Comment ça marche</div>
+      <h2 class="s-h2" style="margin-bottom:.9rem">Opérationnel en <span class="acc">3 étapes.</span></h2>
+      <p class="s-p">Aucune formation. Aucun consultant. Juste de la sécurité, immédiatement.</p>
+    </div>
+    <div class="how-grid reveal">
+      <div class="how-step">
+        <div class="step-num"><span class="step-n">1</span></div>
+        <div class="step-title">Créez votre organisation</div>
+        <div class="step-desc">Renseignez le nom de votre entreprise, invitez vos collaborateurs. Coffre-fort actif en moins de 2 minutes.</div>
+      </div>
+      <div class="how-step">
+        <div class="step-num"><span class="step-n">2</span></div>
+        <div class="step-title">Importez vos accès</div>
+        <div class="step-desc">Depuis un CSV, LastPass, 1Password ou saisie manuelle. Chiffrement instantané à l'import.</div>
+      </div>
+      <div class="how-step">
+        <div class="step-num"><span class="step-n">3</span></div>
+        <div class="step-title">Gérez &amp; dormez tranquille</div>
+        <div class="step-desc">Attribuez les accès par équipe, suivez en temps réel, révoquez en 1 clic lors des départs.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     TÉMOIGNAGES
+════════════════════════════════ -->
+<section class="testi" id="testi">
+  <div class="wrap">
+    <div class="testi-head reveal">
+      <div class="s-label center">Témoignages</div>
+      <h2 class="s-h2">Ce que disent nos clients.</h2>
+    </div>
+    <div class="testi-grid reveal">
+      <div class="tcard">
+        <div class="tcard-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="tcard-quote">"Avant Lakile, nos mots de passe traînaient sur des Google Sheets. Depuis, <strong>zéro incident</strong> en 18 mois. L'équipe IT dort enfin la nuit."</p>
+        <div class="tcard-auth">
+          <div class="tcard-av tav-a">MB</div>
+          <div><div class="tcard-name">Marc Beaumont</div><div class="tcard-role">RSSI · NexaGroup (350 emp.)</div></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="tcard-quote">"L'onboarding a pris <strong>11 minutes</strong>. Nos 80 collaborateurs étaient opérationnels le jour même. Exactement ce dont on avait besoin."</p>
+        <div class="tcard-auth">
+          <div class="tcard-av tav-b">KD</div>
+          <div><div class="tcard-name">Kenza Dalil</div><div class="tcard-role">CTO · Digitora</div></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="tcard-quote">"La révocation instantanée a déjà <strong>bloqué 3 tentatives</strong> d'accès post-contrat. Lakile nous a évité une catastrophe."</p>
+        <div class="tcard-auth">
+          <div class="tcard-av tav-c">AT</div>
+          <div><div class="tcard-name">Amine Tahiri</div><div class="tcard-role">DG · Axiolab Finance</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     PRICING
+════════════════════════════════ -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="pricing-head reveal">
+      <div class="s-label center">Tarification</div>
+      <h2 class="s-h2" style="margin-bottom:.9rem">Simple. Transparent.<br><span class="acc">Sans surprise.</span></h2>
+      <p class="s-p">14 jours d'essai gratuit sur tous les plans. Aucune carte bancaire.</p>
+    </div>
+    <div class="pricing-grid reveal">
+      <!-- Starter -->
+      <div class="pcard">
+        <div class="plan-tier">Starter</div>
+        <div class="plan-price-wrap"><span class="plan-price">Gratuit</span></div>
+        <div class="plan-desc">Pour les petites équipes. Jusqu'à 5 utilisateurs.</div>
+        <div class="plan-sep"></div>
+        <ul class="plan-list">
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Coffre-fort chiffré</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>5 utilisateurs</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>50 identifiants</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Partage sécurisé</li>
+        </ul>
+        @if (Route::has('register'))
+          <a href="{{ route('register') }}" class="plan-btn pb-outline">Commencer gratuitement</a>
+        @endif
+      </div>
+      <!-- Pro -->
+      <div class="pcard pop">
+        <div class="pop-tag">Le plus choisi</div>
+        <div class="plan-tier">Pro</div>
+        <div class="plan-price-wrap"><span class="plan-price">29€</span><span class="plan-per">/ mois</span></div>
+        <div class="plan-desc">Pour les équipes en croissance. Utilisateurs illimités.</div>
+        <div class="plan-sep"></div>
+        <ul class="plan-list">
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Tout du Starter</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Utilisateurs illimités</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Identifiants illimités</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Journal d'audit complet</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>SSO &amp; SAML 2.0</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Alertes fuites temps réel</li>
+        </ul>
+        @if (Route::has('register'))
+          <a href="{{ route('register') }}" class="plan-btn pb-filled">Essai 14 jours gratuit</a>
+        @endif
+      </div>
+      <!-- Enterprise -->
+      <div class="pcard">
+        <div class="plan-tier">Enterprise</div>
+        <div class="plan-price-wrap"><span class="plan-price" style="font-size:1.8rem;font-weight:700">Sur devis</span></div>
+        <div class="plan-desc">Pour les grandes organisations. SLA garanti.</div>
+        <div class="plan-sep"></div>
+        <ul class="plan-list">
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Tout du Pro</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Déploiement on-premise</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Active Directory</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>SLA 99.99% garanti</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Support dédié 24/7</li>
+          <li class="plan-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Audit de conformité</li>
+        </ul>
+        <a href="#" class="plan-btn pb-outline">Contacter les ventes</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     CTA FINAL
+════════════════════════════════ -->
+<section class="cta-section">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <div class="cta-chip"><span class="chip-dot"></span>Rejoignez 2 400+ équipes sécurisées</div>
+      <h2 class="cta-h2">Chaque jour sans Lakile<br>est un jour de trop.</h2>
+      <p class="cta-p">Vos accès critiques méritent une protection enterprise. Démarrez en 2 minutes, sans carte bancaire.</p>
+      <div class="cta-acts">
+        @if (Route::has('register'))
+          <a href="{{ route('register') }}" class="btn-primary">
+            Créer mon compte gratuit
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        @endif
+        <a href="#" class="btn-secondary">Demander une démo</a>
+      </div>
+      <div class="cta-trust">
+        <span class="cta-trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>14 jours d'essai gratuit</span>
+        <span>·</span>
+        <span class="cta-trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Sans carte bancaire</span>
+        <span>·</span>
+        <span class="cta-trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Résiliation libre</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-copy">
+        © {{ date('Y') }} <span>Lakile</span> — Gestion sécurisée des accès entreprise
+        &nbsp;·&nbsp; Laravel v{{ Illuminate\Foundation\Application::VERSION }}
+      </div>
+      <div class="footer-links">
+        <a href="#">Confidentialité</a>
+        <a href="#">CGU</a>
+        <a href="#">Sécurité</a>
+        <a href="#">Contact</a>
+        <a href="#">Statut</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════
+     JAVASCRIPT — Tout en un seul bloc propre
+════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ─────────────────────────────────────────────
+     1. THEME TOGGLE — bullet-proof
+  ───────────────────────────────────────────── */
+  var THEME_KEY = 'lk-theme';
+  var html = document.documentElement;
+
+  function getTheme() {
+    return localStorage.getItem(THEME_KEY) === 'light' ? 'light' : 'dark';
+  }
+  function applyTheme(t) {
+    html.setAttribute('data-theme', t);
+    localStorage.setItem(THEME_KEY, t);
+  }
+  // Assure que l'attribut est correct après le chargement DOM
+  applyTheme(getTheme());
+
+  var toggleBtn = document.getElementById('themeToggle');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function () {
+      applyTheme(getTheme() === 'dark' ? 'light' : 'dark');
+    });
+  }
+
+  /* ─────────────────────────────────────────────
+     2. CANVAS PARTICLES
+  ───────────────────────────────────────────── */
+  var canvas = document.getElementById('particles-canvas');
+  var ctx = canvas.getContext('2d');
+  var W, H, pts = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  var NUM = Math.min(80, Math.floor(window.innerWidth / 16));
+  for (var i = 0; i < NUM; i++) {
+    pts.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - .5) * .5,
+      vy: (Math.random() - .5) * .5,
+      r: Math.random() * 1.8 + .6
+    });
+  }
+
+  function ptColor() {
+    return html.getAttribute('data-theme') === 'light'
+      ? 'rgba(41,82,227,'
+      : 'rgba(79,124,255,';
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, W, H);
+    var c = ptColor();
+    for (var i = 0; i < pts.length; i++) {
+      var p = pts[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = c + '.65)';
+      ctx.fill();
+
+      for (var j = i + 1; j < pts.length; j++) {
+        var q = pts[j];
+        var dx = p.x - q.x, dy = p.y - q.y;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 130) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = c + ((.55 - d / 130 * .55).toFixed(3)) + ')';
+          ctx.lineWidth = .6;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  /* ─────────────────────────────────────────────
+     3. 3D VAULT CARD TILT
+  ───────────────────────────────────────────── */
+  var scene = document.getElementById('vaultScene');
+  if (scene) {
+    var parent = scene.parentElement;
+    parent.addEventListener('mousemove', function (e) {
+      var rect = parent.getBoundingClientRect();
+      var cx = rect.left + rect.width  / 2;
+      var cy = rect.top  + rect.height / 2;
+      var dx = (e.clientX - cx) / (rect.width  / 2);
+      var dy = (e.clientY - cy) / (rect.height / 2);
+      var rx =  dy * -12;  // tilt vertical
+      var ry =  dx *  14;  // tilt horizontal
+      scene.style.transform = 'perspective(1200px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) scale3d(1.02,1.02,1.02)';
+    });
+    parent.addEventListener('mouseleave', function () {
+      scene.style.transform = 'perspective(1200px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+      scene.style.transition = 'transform .6s ease';
+    });
+    parent.addEventListener('mouseenter', function () {
+      scene.style.transition = 'transform .15s ease-out';
+    });
+  }
+
+  /* ─────────────────────────────────────────────
+     4. 3D TILT SUR LES BENTO CARDS
+  ───────────────────────────────────────────── */
+  function initCardTilt() {
+    var cards = document.querySelectorAll('[data-tilt]');
+    cards.forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width  - .5;
+        var y = (e.clientY - r.top)  / r.height - .5;
+        card.style.transform = 'perspective(900px) rotateY(' + (x * 12) + 'deg) rotateX(' + (-y * 8) + 'deg) scale3d(1.02,1.02,1.02)';
+        card.style.transition = 'transform .1s ease-out';
+        // Déplace légèrement l'icone en avant
+        var ico = card.querySelector('.bcard-ico');
+        if (ico) ico.style.transform = 'translateZ(25px) translateX(' + (x*8) + 'px) translateY(' + (y*8) + 'px)';
+      });
+      card.addEventListener('mouseleave', function () {
+        card.style.transform = 'perspective(900px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+        card.style.transition = 'transform .5s ease';
+        var ico = card.querySelector('.bcard-ico');
+        if (ico) { ico.style.transform = 'translateZ(12px)'; ico.style.transition = 'transform .5s ease'; }
+      });
+    });
+  }
+  initCardTilt();
+
+  /* ─────────────────────────────────────────────
+     5. SCROLL REVEAL avec IntersectionObserver
+  ───────────────────────────────────────────── */
+  var revealObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var el = e.target;
+      el.classList.add('in');
+      // Stagger les enfants si c'est un container
+      var children = el.querySelectorAll(
+        '.bcard, .risk-item, .how-step, .tcard, .pcard, .st-col'
+      );
+      children.forEach(function (c, i) {
+        c.style.transitionDelay = (i * 0.09) + 's';
+      });
+      revealObs.unobserve(el);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(function (el) {
+    revealObs.observe(el);
+  });
+
+  /* ─────────────────────────────────────────────
+     6. NAV SCROLL SHADOW
+  ───────────────────────────────────────────── */
+  var nav = document.querySelector('.nav');
+  var scrollObs = new IntersectionObserver(function (entries) {
+    nav.style.boxShadow = entries[0].isIntersecting
+      ? 'none'
+      : '0 4px 30px rgba(0,0,0,.15)';
+  }, { threshold: 1 });
+  var sentinel = document.createElement('div');
+  sentinel.style.cssText = 'position:absolute;top:68px;left:0;width:1px;height:1px;pointer-events:none';
+  document.body.prepend(sentinel);
+  scrollObs.observe(sentinel);
+
+  /* ─────────────────────────────────────────────
+     7. PARALLAX HERO GLOWS
+  ───────────────────────────────────────────── */
+  var glow1 = document.querySelector('.hero-glow');
+  var glow2 = document.querySelector('.hero-glow2');
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY;
+    if (glow1) glow1.style.transform = 'translateY(' + (y * .25) + 'px)';
+    if (glow2) glow2.style.transform = 'translateY(' + (-y * .15) + 'px)';
+  }, { passive: true });
+
+})();
+</script>
+
+</body>
 </html>
