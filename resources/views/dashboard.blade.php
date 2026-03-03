@@ -496,11 +496,11 @@
                                         </span>
                                         <button onclick="
                                         navigator.clipboard.writeText('{{ addslashes($account->identifiant) }}');
-                                        this.textContent='✓';
+                                        this.textContent='✓Copié';
                                         setTimeout(()=>this.textContent='Copier',1500)"
                                             class="text-indigo-500 hover:text-pink-500 transition text-xs font-medium flex-shrink-0 ml-2">
-                                            Copier
-                                        </button>
+                    Copier
+                </button>
                                     </div>
                                 </div>
 
@@ -526,11 +526,11 @@
                                             </button>
                                             <button onclick="
                                             navigator.clipboard.writeText('{{ addslashes($account->password) }}');
-                                            this.textContent='✓';
+                                            this.textContent='✓Copié';
                                             setTimeout(()=>this.textContent='Copier',1500)"
                                                 class="text-indigo-500 hover:text-pink-500 transition text-xs font-medium">
-                                                Copier
-                                            </button>
+                    Copier
+                </button>
                                         </div>
                                         @endif
                                     </div>
