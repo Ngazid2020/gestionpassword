@@ -862,7 +862,7 @@ img{display:block;max-width:100%}
         </button>
         @if (Route::has('login'))
           @auth
-            <a href="{{ url('/dashboard') }}" class="btn-nav-cta">Tableau de bord</a>
+            <a href="{{ url('/dashboard') }}" class="btn-nav-cta">Mon Lakile</a>
           @else
             <a href="{{ route('login') }}" class="btn-nav-ghost">Connexion</a>
             @if (Route::has('register'))

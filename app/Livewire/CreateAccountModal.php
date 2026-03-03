@@ -49,7 +49,6 @@ class CreateAccountModal extends Component
 
         // Notification pour le dashboard (facultatif)
         $this->dispatch('accountCreated');
-        dd(filament()->getTenant());
     }
 
     public function render()
