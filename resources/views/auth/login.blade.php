@@ -204,7 +204,7 @@
         <div class="w-full lg:w-1/2 flex items-center justify-center p-6">
             <div class="w-full max-w-md">
                 <div class="text-center mb-6">
-                    <h1 class="text-4xl font-bold mb-2">
+                    <h1 class="text-4xl font-bold dark:text-white mb-2">
                         La<span class="gradient-text font-extrabold">kile</span>
                     </h1>
                     <p class="text-gray-500 dark:text-gray-400 text-sm">
