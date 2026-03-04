@@ -54,13 +54,13 @@ class EditAccountModal extends Component
         $this->isOpen = false;
 
         // Cette ligne force le navigateur à rafraîchir la page entière
-        // $this->js('window.location.reload()');
+        
 
         Notification::make()
             ->title('Saved successfully')
             ->success()
             ->send();
-        
+        $this->js('window.location.reload()');
     }
 
     public function render()
