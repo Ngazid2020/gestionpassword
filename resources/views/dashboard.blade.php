@@ -439,7 +439,7 @@
                                     transition-all duration-500">
 
                                 {{-- HEADER card --}}
-                                
+
                                 <div class="flex items-start gap-4 mb-4">
                                     {{-- Conteneur de l'icône --}}
                                     <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 
@@ -459,6 +459,7 @@
                                         <span class="flex items-center justify-center w-full h-full {{ $account->favicon_url ? 'hidden' : '' }}">
                                             {{ strtoupper(substr($account->name, 0, 1)) }}
                                         </span>
+                                        
                                     </div>
 
                                     {{-- Titre et Lien --}}
@@ -509,8 +510,8 @@
                                         this.textContent='✓Copié';
                                         setTimeout(()=>this.textContent='Copier',1500)"
                                             class="text-indigo-500 hover:text-pink-500 transition text-xs font-medium flex-shrink-0 ml-2">
-                    Copier
-                </button>
+                                            Copier
+                                        </button>
                                     </div>
                                 </div>
 
@@ -539,8 +540,8 @@
                                             this.textContent='✓Copié';
                                             setTimeout(()=>this.textContent='Copier',1500)"
                                                 class="text-indigo-500 hover:text-pink-500 transition text-xs font-medium">
-                    Copier
-                </button>
+                                                Copier
+                                            </button>
                                         </div>
                                         @endif
                                     </div>
@@ -552,14 +553,7 @@
                                     <span>Créé {{ $account->created_at->format('d/m/Y') }}</span>
                                     <div class="flex items-center gap-2">
                                         <span>Maj {{ $account->updated_at->format('d/m/Y') }}</span>
-                                        <button
-                                            wire:click="$dispatch('editAccount', { id: {{ $account->id }} })"
-                                            class="px-3 py-1 rounded-lg text-xs font-semibold
-                                               bg-yellow-100 text-yellow-700
-                                               hover:bg-yellow-500 hover:text-white
-                                               transition duration-300">
-                                            Modifier
-                                        </button>
+
                                     </div>
                                 </div>
 
@@ -593,5 +587,5 @@
 
         </div>
     </div>
-
+    <livewire:edit-account-modal />
 </x-app-layout>
