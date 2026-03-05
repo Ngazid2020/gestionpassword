@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 <title>Lakile — Coffre-fort numérique d'entreprise</title>
 
 {{-- ⚡ CRITIQUE : doit être le PREMIER script, avant tout CSS --}}
