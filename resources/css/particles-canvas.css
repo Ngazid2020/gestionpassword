@@ -1,0 +1,37 @@
+/* ══════════════════════════════════════════════════════════
+   PARTICLES CANVAS - Background animé
+   Réutilisable sur toutes les pages
+══════════════════════════════════════════════════════════ */
+
+.particles-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--particles-opacity-dark, 0.55);
+  transition: opacity 0.4s ease;
+  will-change: opacity;
+}
+
+/* Adaptation au thème clair */
+[data-theme="light"] .particles-canvas {
+  opacity: var(--particles-opacity-light, 0.25);
+}
+
+/* Désactivation sur les préférences de mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+  .particles-canvas {
+    display: none;
+  }
+}
+
+/* Performance : masquer sur petits écrans si nécessaire */
+@media (max-width: 640px) {
+  .particles-canvas {
+    opacity: calc(var(--particles-opacity-dark, 0.55) * 0.6);
+  }
+  
+  [data-theme="light"] .particles-canvas {
+    opacity: calc(var(--particles-opacity-light, 0.25) * 0.6);
+  }
+}
