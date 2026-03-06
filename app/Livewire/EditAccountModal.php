@@ -57,7 +57,7 @@ class EditAccountModal extends Component
         
 
         Notification::make()
-            ->title('Saved successfully')
+            ->title('Modifications réussies!')
             ->success()
             ->send();
         $this->js('window.location.reload()');

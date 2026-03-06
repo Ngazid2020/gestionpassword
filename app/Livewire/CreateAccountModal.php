@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Account;
 use App\Models\Category;
+use Filament\Notifications\Notification;
 
 class CreateAccountModal extends Component
 {
@@ -21,7 +22,7 @@ class CreateAccountModal extends Component
         return [
             'name' => 'required|string|max:255',
             'identifiant' => 'required|string|max:255',
-            'url' => 'nullable|url',
+            'url' => 'nullable|string',
             'password' => 'nullable|string',
             'category_id' => 'nullable|exists:categories,id',
         ];
@@ -48,7 +49,12 @@ class CreateAccountModal extends Component
         $this->showModal = false;
 
         // Notification pour le dashboard (facultatif)
-        $this->dispatch('accountCreated');
+        // $this->dispatch('accountCreated');
+        Notification::make()
+            ->title('Enregistrement réussi!')
+            ->success()
+            ->send();
+        $this->js('window.location.reload()');
     }
 
     public function render()
