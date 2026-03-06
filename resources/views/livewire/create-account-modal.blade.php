@@ -53,7 +53,7 @@
                                 <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                                     <x-heroicon-o-link class="w-5 h-5" />
                                 </span>
-                                <input type="url" wire:model="url" placeholder="https://..." 
+                                <input type="text" wire:model="url" placeholder="https://..." 
                                     class="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border-none rounded-xl focus:ring-2 focus:ring-indigo-500 transition-all dark:text-white" />
                             </div>
                         </div>
