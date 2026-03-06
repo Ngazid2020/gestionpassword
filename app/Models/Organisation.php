@@ -13,6 +13,7 @@ class Organisation extends Model
     protected $fillable = [
         'name',
         'slug',
+        'active',
     ];
 
     public function users()
