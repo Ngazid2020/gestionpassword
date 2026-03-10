@@ -134,7 +134,7 @@
                                 <div class="text-xl sm:text-2xl font-black text-gray-800 dark:text-white leading-none">
                                     {{ $s['val'] }}
                                 </div>
-                                <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ $s['label'] }}</div>
+                                <div class="text-xs text-gray-500 dark:text-white mt-0.5">{{ $s['label'] }}</div>
                             </div>
                             @endforeach
                         </div>
