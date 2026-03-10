@@ -31,7 +31,7 @@ class DashboardTable extends Component
                 });
             })
             ->latest()
-            ->paginate(3);
+            ->paginate(6);
 
         // On applique votre logique de favicon sur les résultats paginés
         $accounts->getCollection()->transform(function ($account) {
