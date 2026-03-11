@@ -12,15 +12,9 @@ class DashboardTable extends Component
 
     public $search = '';
 
-    // Réinitialise la pagination quand on tape une recherche
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
-    }
-
-    public function openEdit(int $accountId): void
-    {
-        $this->dispatch('openEditModal', account: $accountId);
     }
 
     /**
@@ -39,14 +33,11 @@ class DashboardTable extends Component
             ->firstOrFail();
 
         // Event unique par compte : seule la bonne card Alpine est mise à jour.
-        $this->dispatch('passwordRevealed-' . $accountId,
-            password: $account->password ?? ''
-        );
+        $this->dispatch('password-revealed-' . $accountId, password: $account->password ?? '');
     }
 
     public function render()
     {
-        // On récupère l'organisation active de l'utilisateur
         $organisation = auth()->user()->organisations()->first();
 
         if (!$organisation) {
@@ -54,13 +45,10 @@ class DashboardTable extends Component
         }
 
         $accounts = Account::where('organisation_id', $organisation->id)
-            // On précise 'organisations.active'
             ->whereHas('organisation', function ($query) {
                 $query->where('organisations.active', true)
-                    // L'organisation doit avoir moins de 14 jours
                     ->where('organisations.created_at', '>=', now()->subDays(14));
             })
-            // On précise 'users.active'
             ->whereHas('user', function ($query) {
                 $query->where('users.active', true);
             })
@@ -73,7 +61,7 @@ class DashboardTable extends Component
             ->latest()
             ->paginate(6);
 
-        // On applique votre logique de favicon sur les résultats paginés
+        // Favicon uniquement — `password` n'est pas nécessaire pour la liste.
         $accounts->getCollection()->transform(function ($account) {
             if ($account->url) {
                 $domain = parse_url($account->url, PHP_URL_HOST);
@@ -85,7 +73,7 @@ class DashboardTable extends Component
         });
 
         return view('livewire.dashboard-table', [
-            'accounts' => $accounts
+            'accounts' => $accounts,
         ]);
     }
 }

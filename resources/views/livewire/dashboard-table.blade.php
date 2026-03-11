@@ -335,7 +335,12 @@
 
                     @forelse($accounts as $i => $account)
 
-                    <div x-data="{ showPassword: false }"
+                    {{-- revealedPassword : null par défaut, jamais dans le HTML source --}}
+                    <div x-data="{ showPassword: false, revealedPassword: null }"
+                        x-on:password-revealed-{{ $account->id }}.window="
+                            revealedPassword = $event.detail.password;
+                            showPassword = true
+                        "
                         class="account-card relative group rounded-2xl sm:rounded-3xl p-[1px]
                                bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500
                                hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500
@@ -428,35 +433,57 @@
                                 </div>
                             </div>
 
-                            {{-- MOT DE PASSE --}}
+                            {{-- MOT DE PASSE
+                                 ⚠️  Aucune valeur PHP ici — le mot de passe n'est JAMAIS
+                                 dans le HTML source. Il arrive uniquement via l'event
+                                 Livewire `revealPassword` et est stocké dans Alpine (JS).
+                            --}}
                             <div class="mt-3">
                                 <span class="text-xs uppercase tracking-wider text-gray-400">Mot de passe</span>
                                 <div class="flex justify-between items-center gap-2 mt-1.5
                                             bg-gray-100 dark:bg-gray-800 rounded-lg sm:rounded-xl px-3 py-2">
                                     <span class="text-sm text-gray-700 dark:text-gray-300 truncate flex-1 min-w-0">
-                                        @if($account->password)
+                                        {{-- Masqué par défaut --}}
                                         <span x-show="!showPassword">••••••••</span>
-                                        <span x-show="showPassword" x-cloak class="break-all">{{ $account->password }}</span>
-                                        @else
-                                        <span class="text-rose-500 text-xs font-medium">Non défini</span>
-                                        @endif
+                                        {{-- Affiché uniquement après fetch Livewire --}}
+                                        <span x-show="showPassword" x-cloak
+                                              x-text="revealedPassword"
+                                              class="break-all"></span>
                                     </span>
-                                    @if($account->password)
                                     <div class="flex gap-1.5 sm:gap-2 flex-shrink-0 whitespace-nowrap">
-                                        <button @click="showPassword = !showPassword"
+                                        {{-- Voir : appelle le serveur la 1ère fois, bascule ensuite --}}
+                                        <button
+                                            @click="
+                                                if (showPassword) {
+                                                    showPassword = false;
+                                                } else if (revealedPassword) {
+                                                    showPassword = true;
+                                                } else {
+                                                    $wire.revealPassword({{ $account->id }});
+                                                }
+                                            "
                                             class="text-purple-500 hover:text-pink-500 transition text-xs font-medium"
                                             x-text="showPassword ? 'Cacher' : 'Voir'">
                                             Voir
                                         </button>
-                                        <button onclick="
-                                                navigator.clipboard.writeText('{{ addslashes($account->password) }}');
-                                                this.textContent='✓';
-                                                setTimeout(()=>this.textContent='Copier',1500)"
+                                        {{-- Copier : utilise la variable Alpine, jamais le DOM --}}
+                                        <button
+                                            @click="
+                                                if (!revealedPassword) {
+                                                    $wire.revealPassword({{ $account->id }});
+                                                    $watch('revealedPassword', val => {
+                                                        if (val) navigator.clipboard.writeText(val);
+                                                    });
+                                                } else {
+                                                    navigator.clipboard.writeText(revealedPassword);
+                                                }
+                                                $el.textContent = '✓';
+                                                setTimeout(() => $el.textContent = 'Copier', 1500)
+                                            "
                                             class="text-indigo-500 hover:text-pink-500 transition text-xs font-medium">
                                             Copier
                                         </button>
                                     </div>
-                                    @endif
                                 </div>
                             </div>
 
