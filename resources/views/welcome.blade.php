@@ -1326,7 +1326,6 @@ img{display:block;max-width:100%}
     <div class="footer-inner">
       <div class="footer-copy">
         © {{ date('Y') }} <span>Lakile</span> — Gestion sécurisée des accès entreprise
-        &nbsp;·&nbsp; Laravel v{{ Illuminate\Foundation\Application::VERSION }}
       </div>
       <div class="footer-links">
         <a href="#">Confidentialité</a>

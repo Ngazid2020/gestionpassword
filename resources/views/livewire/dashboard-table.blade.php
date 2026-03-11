@@ -83,9 +83,9 @@
                         <div class="space-y-2 sm:space-y-2.5">
                             @php
                             $health = [
-                                ['label' => 'Mots de passe forts', 'pct' => 72, 'color' => 'from-indigo-500 to-purple-500'],
-                                ['label' => 'Comptes avec URL',    'pct' => 60, 'color' => 'from-purple-500 to-pink-500'],
-                                ['label' => 'Catégorisés',         'pct' => 90, 'color' => 'from-pink-500 to-rose-400'],
+                            ['label' => 'Mots de passe forts', 'pct' => 72, 'color' => 'from-indigo-500 to-purple-500'],
+                            ['label' => 'Comptes avec URL', 'pct' => 60, 'color' => 'from-purple-500 to-pink-500'],
+                            ['label' => 'Catégorisés', 'pct' => 90, 'color' => 'from-pink-500 to-rose-400'],
                             ];
                             @endphp
                             @foreach($health as $h)
@@ -118,10 +118,10 @@
                         <div class="grid grid-cols-2 gap-2 sm:gap-3">
                             @php
                             $stats = [
-                                ['icon' => '🔑', 'val' => $accounts->count(),                                          'label' => 'Comptes',    'grad' => 'from-indigo-500 to-purple-500'],
-                                ['icon' => '🗂️', 'val' => $accounts->unique('category_id')->count(),                   'label' => 'Catégories', 'grad' => 'from-purple-500 to-pink-500'],
-                                ['icon' => '📅', 'val' => $accounts->where('created_at', '>=', now()->startOfMonth())->count(), 'label' => 'Ce mois',    'grad' => 'from-pink-500 to-rose-400'],
-                                ['icon' => '✅', 'val' => $accounts->whereNotNull('url')->count(),                     'label' => 'Avec URL',   'grad' => 'from-emerald-400 to-teal-500'],
+                            ['icon' => '🔑', 'val' => $accounts->count(), 'label' => 'Comptes', 'grad' => 'from-indigo-500 to-purple-500'],
+                            ['icon' => '🗂️', 'val' => $accounts->unique('category_id')->count(), 'label' => 'Catégories', 'grad' => 'from-purple-500 to-pink-500'],
+                            ['icon' => '📅', 'val' => $accounts->where('created_at', '>=', now()->startOfMonth())->count(), 'label' => 'Ce mois', 'grad' => 'from-pink-500 to-rose-400'],
+                            ['icon' => '✅', 'val' => $accounts->whereNotNull('url')->count(), 'label' => 'Avec URL', 'grad' => 'from-emerald-400 to-teal-500'],
                             ];
                             @endphp
                             @foreach($stats as $s)
@@ -191,7 +191,7 @@
                             <div class="space-y-2">
                                 @php
                                 $noPass = $accounts->whereNull('password')->count();
-                                $noUrl  = $accounts->whereNull('url')->count();
+                                $noUrl = $accounts->whereNull('url')->count();
                                 @endphp
 
                                 @if($noPass > 0)
@@ -382,7 +382,8 @@
                                         {{ $account->name }}
                                     </h3>
                                     @if($account->url)
-                                    <a href="{{ $account->url }}" target="_blank"
+                                    <a href="{{ str_starts_with($account->url, 'http') ? $account->url : 'https://' . $account->url }}"
+                                        target="_blank"
                                         class="text-xs text-indigo-500 hover:text-pink-500 transition truncate block">
                                         {{ parse_url($account->url, PHP_URL_HOST) ?? $account->url }}
                                     </a>
@@ -447,8 +448,8 @@
                                         <span x-show="!showPassword">••••••••</span>
                                         {{-- Affiché uniquement après fetch Livewire --}}
                                         <span x-show="showPassword" x-cloak
-                                              x-text="revealedPassword"
-                                              class="break-all"></span>
+                                            x-text="revealedPassword"
+                                            class="break-all"></span>
                                     </span>
                                     <div class="flex gap-1.5 sm:gap-2 flex-shrink-0 whitespace-nowrap">
                                         {{-- Voir : appelle le serveur la 1ère fois, bascule ensuite --}}

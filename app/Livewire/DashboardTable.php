@@ -10,10 +10,41 @@ class DashboardTable extends Component
 {
     use WithPagination;
 
-    public $search = '';
+    public $search         = '';
+    public $sortField      = 'created_at';
+    public $sortDirection  = 'desc';
+    public $categoryFilter = null;
 
     public function updatingSearch(): void
     {
+        $this->resetPage();
+    }
+
+    /**
+     * Tri par colonne — inverse la direction si on clique deux fois sur le même champ.
+     */
+    public function sortBy(string $field): void
+    {
+        $allowed = ['name', 'updated_at', 'created_at'];
+
+        if (!in_array($field, $allowed)) {
+            return;
+        }
+
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortField     = $field;
+            $this->sortDirection = 'asc';
+        }
+    }
+
+    /**
+     * Filtre par catégorie — null = toutes les catégories.
+     */
+    public function filterCategory(?int $categoryId): void
+    {
+        $this->categoryFilter = $categoryId;
         $this->resetPage();
     }
 
@@ -33,7 +64,9 @@ class DashboardTable extends Component
             ->firstOrFail();
 
         // Event unique par compte : seule la bonne card Alpine est mise à jour.
-        $this->dispatch('password-revealed-' . $accountId, password: $account->password ?? '');
+        $this->dispatch('password-revealed-' . $accountId,
+            password: $account->password ?? ''
+        );
     }
 
     public function render()
@@ -58,7 +91,10 @@ class DashboardTable extends Component
                         ->orWhere('url', 'like', '%' . $this->search . '%');
                 });
             })
-            ->latest()
+            ->when($this->categoryFilter, function ($query) {
+                $query->where('category_id', $this->categoryFilter);
+            })
+            ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(6);
 
         // Favicon uniquement — `password` n'est pas nécessaire pour la liste.
