@@ -18,10 +18,10 @@
                 {{-- Toggle button pour mobile uniquement --}}
                 <button @click="sidebarOpen = !sidebarOpen"
                     class="w-full mb-3 px-4 py-3 rounded-xl
-                                   bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl
-                                   border border-white/60 dark:border-gray-700/60
-                                   shadow-lg flex items-center justify-between
-                                   text-gray-700 dark:text-gray-200 font-semibold">
+                           bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl
+                           border border-white/60 dark:border-gray-700/60
+                           shadow-lg flex items-center justify-between
+                           text-gray-700 dark:text-gray-200 font-semibold">
                     <span class="flex items-center gap-2">
                         <span class="text-lg">📊</span>
                         <span>Tableau de bord</span>
@@ -53,12 +53,10 @@
                         <div class="flex items-center justify-center mb-3 sm:mb-4">
                             <div class="relative w-28 h-28 sm:w-32 sm:h-32">
                                 <svg viewBox="0 0 80 80" class="w-full h-full" aria-hidden="true">
-                                    {{-- fond --}}
                                     <circle cx="40" cy="40" r="35"
                                         fill="none" stroke="currentColor"
                                         stroke-width="6"
                                         class="text-gray-200 dark:text-gray-700" />
-                                    {{-- arc dynamique --}}
                                     <circle cx="40" cy="40" r="35"
                                         fill="none"
                                         stroke="url(#scoreGrad)"
@@ -85,9 +83,9 @@
                         <div class="space-y-2 sm:space-y-2.5">
                             @php
                             $health = [
-                            ['label' => 'Mots de passe forts', 'pct' => 72, 'color' => 'from-indigo-500 to-purple-500'],
-                            ['label' => 'Comptes avec URL', 'pct' => 60, 'color' => 'from-purple-500 to-pink-500'],
-                            ['label' => 'Catégorisés', 'pct' => 90, 'color' => 'from-pink-500 to-rose-400'],
+                                ['label' => 'Mots de passe forts', 'pct' => 72, 'color' => 'from-indigo-500 to-purple-500'],
+                                ['label' => 'Comptes avec URL',    'pct' => 60, 'color' => 'from-purple-500 to-pink-500'],
+                                ['label' => 'Catégorisés',         'pct' => 90, 'color' => 'from-pink-500 to-rose-400'],
                             ];
                             @endphp
                             @foreach($health as $h)
@@ -120,10 +118,10 @@
                         <div class="grid grid-cols-2 gap-2 sm:gap-3">
                             @php
                             $stats = [
-                            ['icon' => '🔑', 'val' => $accounts->count(), 'label' => 'Comptes', 'grad' => 'from-indigo-500 to-purple-500'],
-                            ['icon' => '🗂️', 'val' => $accounts->unique('category_id')->count(), 'label' => 'Catégories', 'grad' => 'from-purple-500 to-pink-500'],
-                            ['icon' => '📅', 'val' => $accounts->where('created_at', '>=', now()->startOfMonth())->count(), 'label' => 'Ce mois', 'grad' => 'from-pink-500 to-rose-400'],
-                            ['icon' => '✅', 'val' => $accounts->whereNotNull('url')->count(), 'label' => 'Avec URL', 'grad' => 'from-emerald-400 to-teal-500'],
+                                ['icon' => '🔑', 'val' => $accounts->count(),                                          'label' => 'Comptes',    'grad' => 'from-indigo-500 to-purple-500'],
+                                ['icon' => '🗂️', 'val' => $accounts->unique('category_id')->count(),                   'label' => 'Catégories', 'grad' => 'from-purple-500 to-pink-500'],
+                                ['icon' => '📅', 'val' => $accounts->where('created_at', '>=', now()->startOfMonth())->count(), 'label' => 'Ce mois',    'grad' => 'from-pink-500 to-rose-400'],
+                                ['icon' => '✅', 'val' => $accounts->whereNotNull('url')->count(),                     'label' => 'Avec URL',   'grad' => 'from-emerald-400 to-teal-500'],
                             ];
                             @endphp
                             @foreach($stats as $s)
@@ -155,7 +153,6 @@
                         <div class="space-y-2.5 sm:space-y-3">
                             @forelse($accounts->sortByDesc('updated_at')->take(4) as $recent)
                             <div class="flex items-center gap-2.5 sm:gap-3">
-                                {{-- Icône initiale --}}
                                 <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex-shrink-0
                                             bg-gradient-to-br from-indigo-500 to-purple-600
                                             flex items-center justify-center
@@ -170,8 +167,7 @@
                                         Maj {{ $recent->updated_at->diffForHumans() }}
                                     </div>
                                 </div>
-                                <div class="w-1.5 h-1.5 rounded-full pulse-dot
-                                            bg-indigo-500 flex-shrink-0"></div>
+                                <div class="w-1.5 h-1.5 rounded-full pulse-dot bg-indigo-500 flex-shrink-0"></div>
                             </div>
                             @empty
                             <p class="text-xs text-gray-400 text-center py-2">Aucune activité</p>
@@ -179,7 +175,7 @@
                         </div>
                     </div>
 
-                    {{-- ── Widget 4 : Alerte sécurité ── --}}
+                    {{-- ── Widget 4 : Alertes sécurité ── --}}
                     <div class="rounded-2xl p-[1px]
                                 bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500
                                 shadow-lg mb-3 sm:mb-4">
@@ -195,7 +191,7 @@
                             <div class="space-y-2">
                                 @php
                                 $noPass = $accounts->whereNull('password')->count();
-                                $noUrl = $accounts->whereNull('url')->count();
+                                $noUrl  = $accounts->whereNull('url')->count();
                                 @endphp
 
                                 @if($noPass > 0)
@@ -230,54 +226,39 @@
                         </div>
                     </div>
 
-                    {{-- ── Widget 5 : Recherche rapide ── --}}
+                    {{-- ── Widget 5 : Filtres catégorie ── --}}
+                    @if(isset($categories) && $categories->isNotEmpty())
                     <div class="rounded-2xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl
                                 border border-white/60 dark:border-gray-700/60
                                 shadow-lg p-4 sm:p-5">
 
-                        <!-- <div class="flex items-center gap-2 mb-3">
-                            <span class="text-base sm:text-lg">🔍</span>
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-base sm:text-lg">🗂️</span>
                             <h3 class="font-bold text-gray-800 dark:text-white text-xs sm:text-sm tracking-wide uppercase">
-                                Recherche
+                                Catégories
                             </h3>
-                        </div> -->
-
-                        <div x-data="{ q: '' }">
-                            <!-- <input x-model="q"
-                                type="text"
-                                placeholder="Nom, identifiant…"
-                                @input.debounce.300ms="$dispatch('search-accounts', { query: q })"
-                                class="w-full text-sm rounded-xl px-3 py-2.5
-                                          bg-gray-100 dark:bg-gray-800
-                                          border border-gray-200 dark:border-gray-700
-                                          text-gray-700 dark:text-gray-200
-                                          placeholder-gray-400
-                                          focus:outline-none focus:ring-2 focus:ring-indigo-500/50
-                                          transition" /> -->
                         </div>
 
-                        {{-- Filtre catégorie --}}
-                        @if(isset($categories) && $categories->isNotEmpty())
-                        <div class="mt-3 flex flex-wrap gap-1.5">
+                        <div class="flex flex-wrap gap-1.5">
                             <button wire:click="filterCategory(null)"
                                 class="px-2.5 py-1 rounded-lg text-xs font-semibold
-                                           bg-indigo-500 text-white transition hover:bg-indigo-600">
+                                       bg-indigo-500 text-white transition hover:bg-indigo-600">
                                 Tout
                             </button>
                             @foreach($categories as $cat)
                             <button wire:click="filterCategory({{ $cat->id }})"
                                 class="px-2.5 py-1 rounded-lg text-xs font-semibold
-                                           bg-gray-100 dark:bg-gray-800
-                                           text-gray-600 dark:text-gray-300
-                                           hover:bg-indigo-100 dark:hover:bg-indigo-900/40
-                                           hover:text-indigo-600 dark:hover:text-indigo-400
-                                           transition border border-gray-200 dark:border-gray-700">
+                                       bg-gray-100 dark:bg-gray-800
+                                       text-gray-600 dark:text-gray-300
+                                       hover:bg-indigo-100 dark:hover:bg-indigo-900/40
+                                       hover:text-indigo-600 dark:hover:text-indigo-400
+                                       transition border border-gray-200 dark:border-gray-700">
                                 {{ $cat->name }}
                             </button>
                             @endforeach
                         </div>
-                        @endif
                     </div>
+                    @endif
 
                 </div>
                 {{-- FIN contenu sidebar --}}
@@ -290,12 +271,11 @@
                  CONTENU PRINCIPAL — grille responsive
             ══════════════════════════════════════════ --}}
             <main class="flex-1 min-w-0">
+
                 {{-- ── BARRE DE RECHERCHE PRINCIPALE ── --}}
                 <div class="mb-6 fade-up" style="animation-delay:.05s">
                     <div class="relative group">
-                        {{-- Effet de bordure dégradée au focus (optionnel, pour matcher tes cards) --}}
                         <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-20 group-focus-within:opacity-50 transition duration-300"></div>
-
                         <div class="relative flex items-center">
                             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                                 <svg class="h-5 w-5 text-gray-400 group-focus-within:text-indigo-500 transition-colors" viewBox="0 0 20 20" fill="currentColor">
@@ -305,10 +285,15 @@
                             <input
                                 wire:model.live.debounce.300ms="search"
                                 type="text"
-                                class="block w-full rounded-2xl border-0 py-3.5 pl-11 pr-4 text-gray-900 dark:text-white bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl ring-1 ring-inset ring-gray-300/50 dark:ring-gray-700/50 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm shadow-sm transition-all"
+                                class="block w-full rounded-2xl border-0 py-3.5 pl-11 pr-4
+                                       text-gray-900 dark:text-white
+                                       bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl
+                                       ring-1 ring-inset ring-gray-300/50 dark:ring-gray-700/50
+                                       placeholder:text-gray-400
+                                       focus:ring-2 focus:ring-inset focus:ring-indigo-600
+                                       sm:text-sm shadow-sm transition-all"
                                 placeholder="Rechercher un compte, une URL ou un identifiant...">
 
-                            {{-- Petit indicateur de chargement Livewire --}}
                             <div wire:loading wire:target="search" class="absolute right-4">
                                 <svg class="animate-spin h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -318,8 +303,9 @@
                         </div>
                     </div>
                 </div>
-                {{-- En-tête section --}}
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0 mb-24 sm:mb-6 fade-up"
+
+                {{-- ── EN-TÊTE SECTION ── --}}
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0 mb-6 fade-up"
                     style="animation-delay:.1s">
                     <div>
                         <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -327,19 +313,18 @@
                             compte{{ $accounts->count() > 1 ? 's' : '' }} enregistré{{ $accounts->count() > 1 ? 's' : '' }}
                         </p>
                     </div>
-                    {{-- Sort rapide --}}
                     <div class="flex items-center gap-2 text-xs text-gray-400">
                         <span class="hidden sm:inline">Trier par</span>
                         <button wire:click="sortBy('name')"
                             class="px-2.5 py-1.5 sm:py-1 rounded-lg border border-gray-200 dark:border-gray-700
-                                       bg-white/70 dark:bg-gray-800/70 hover:border-indigo-400
-                                       transition font-medium text-gray-600 dark:text-gray-300">
+                                   bg-white/70 dark:bg-gray-800/70 hover:border-indigo-400
+                                   transition font-medium text-gray-600 dark:text-gray-300">
                             Nom
                         </button>
                         <button wire:click="sortBy('updated_at')"
                             class="px-2.5 py-1.5 sm:py-1 rounded-lg border border-gray-200 dark:border-gray-700
-                                       bg-white/70 dark:bg-gray-800/70 hover:border-indigo-400
-                                       transition font-medium text-gray-600 dark:text-gray-300">
+                                   bg-white/70 dark:bg-gray-800/70 hover:border-indigo-400
+                                   transition font-medium text-gray-600 dark:text-gray-300">
                             Date
                         </button>
                     </div>
@@ -350,12 +335,11 @@
 
                     @forelse($accounts as $i => $account)
 
-                    {{-- Card individuelle --}}
                     <div x-data="{ showPassword: false }"
                         class="account-card relative group rounded-2xl sm:rounded-3xl p-[1px]
-                                bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500
-                                hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500
-                                transition-all duration-500 fade-up"
+                               bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500
+                               hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500
+                               transition-all duration-500 fade-up"
                         style="animation-delay:{{ 0.1 + $i * 0.06 }}s">
 
                         <div class="rounded-2xl sm:rounded-3xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl
@@ -364,13 +348,14 @@
 
                             {{-- HEADER card --}}
                             <div class="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
-                                {{-- Conteneur de l'icône --}}
-                                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl 
-                                                bg-gradient-to-br from-indigo-500 to-purple-600 
-                                                flex items-center justify-center shadow-lg text-white 
-                                                font-bold text-base sm:text-lg 
-                                                group-hover:scale-110 transition duration-300 
-                                                overflow-hidden relative flex-shrink-0">
+
+                                {{-- Icône / Favicon --}}
+                                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl
+                                            bg-gradient-to-br from-indigo-500 to-purple-600
+                                            flex items-center justify-center shadow-lg text-white
+                                            font-bold text-base sm:text-lg
+                                            group-hover:scale-110 transition duration-300
+                                            overflow-hidden relative flex-shrink-0">
 
                                     @if($account->favicon_url)
                                     <img src="{{ $account->favicon_url }}"
@@ -381,13 +366,12 @@
                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     @endif
 
-                                    {{-- Fallback : Initiale --}}
                                     <span class="flex items-center justify-center w-full h-full {{ $account->favicon_url ? 'hidden' : '' }}">
                                         {{ strtoupper(substr($account->name, 0, 1)) }}
                                     </span>
                                 </div>
 
-                                {{-- Titre et Lien --}}
+                                {{-- Titre et lien --}}
                                 <div class="flex-1 min-w-0">
                                     <h3 class="font-bold text-base sm:text-lg text-gray-800 dark:text-white leading-tight truncate">
                                         {{ $account->name }}
@@ -400,13 +384,13 @@
                                     @endif
                                 </div>
 
-                                {{-- Bouton Edit --}}
+                                {{-- Bouton Edit — dispatch sur window, pas d'aller-retour serveur --}}
                                 <button
-                                    @click="$dispatch('openEditModal', { account: {{ $account->id }} })"
-                                    class="p-2 rounded-lg sm:rounded-xl bg-gray-100/50 dark:bg-gray-800/50 
-                                               text-gray-400 hover:text-indigo-500 hover:bg-indigo-50 
-                                               dark:hover:bg-indigo-900/30 transition-all duration-200 
-                                               border border-transparent hover:border-indigo-200/50 flex-shrink-0"
+                                    @click="window.dispatchEvent(new CustomEvent('openEditModal', { detail: { account: {{ $account->id }} } }))"
+                                    class="p-2 rounded-lg sm:rounded-xl bg-gray-100/50 dark:bg-gray-800/50
+                                           text-gray-400 hover:text-indigo-500 hover:bg-indigo-50
+                                           dark:hover:bg-indigo-900/30 transition-all duration-200
+                                           border border-transparent hover:border-indigo-200/50 flex-shrink-0"
                                     title="Modifier">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -418,8 +402,8 @@
                             @if($account->category)
                             <div class="mt-3 sm:mt-4">
                                 <span class="inline-block px-2.5 sm:px-3 py-1 text-xs font-semibold rounded-full
-                                        bg-gradient-to-r from-indigo-500 to-purple-500
-                                        text-white shadow-md">
+                                             bg-gradient-to-r from-indigo-500 to-purple-500
+                                             text-white shadow-md">
                                     {{ $account->category->name }}
                                 </span>
                             </div>
@@ -437,8 +421,8 @@
                                             navigator.clipboard.writeText('{{ addslashes($account->identifiant) }}');
                                             this.textContent='✓';
                                             setTimeout(()=>this.textContent='Copier',1500)"
-                                        class="text-indigo-500 hover:text-pink-500 transition text-xs 
-                                                   font-medium flex-shrink-0 whitespace-nowrap">
+                                        class="text-indigo-500 hover:text-pink-500 transition text-xs
+                                               font-medium flex-shrink-0 whitespace-nowrap">
                                         Copier
                                     </button>
                                 </div>
@@ -478,7 +462,7 @@
 
                             {{-- FOOTER card --}}
                             <div class="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700
-                                        flex flex-col sm:flex-row justify-between gap-2 sm:gap-0 sm:items-center 
+                                        flex flex-col sm:flex-row justify-between gap-2 sm:gap-0 sm:items-center
                                         text-xs text-gray-400">
                                 <span>Créé {{ $account->created_at->format('d/m/Y') }}</span>
                                 <span>Maj {{ $account->updated_at->format('d/m/Y') }}</span>
@@ -489,7 +473,6 @@
                     {{-- FIN CARD --}}
 
                     @empty
-
                     <div class="col-span-full flex flex-col items-center justify-center
                                 py-16 sm:py-20 text-center fade-up">
                         <div class="text-5xl sm:text-6xl mb-4">🔐</div>
@@ -500,14 +483,15 @@
                             Commencez par ajouter votre premier compte.
                         </p>
                     </div>
-
                     @endforelse
 
                 </div>
                 {{-- FIN GRILLE --}}
+
                 <div class="mt-8">
                     {{ $accounts->links() }}
                 </div>
+
             </main>
             {{-- FIN MAIN --}}
 
@@ -515,3 +499,4 @@
         {{-- FIN WRAPPER flex --}}
 
     </div>
+</div>

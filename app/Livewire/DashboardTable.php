@@ -18,6 +18,32 @@ class DashboardTable extends Component
         $this->resetPage();
     }
 
+    public function openEdit(int $accountId): void
+    {
+        $this->dispatch('openEditModal', account: $accountId);
+    }
+
+    /**
+     * Retourne le mot de passe uniquement si le compte
+     * appartient bien à l'organisation de l'utilisateur connecté.
+     * Le mot de passe n'est JAMAIS rendu dans le HTML initial.
+     */
+    public function revealPassword(int $accountId): void
+    {
+        $organisation = auth()->user()->organisations()->first();
+
+        abort_unless($organisation, 403);
+
+        $account = Account::where('id', $accountId)
+            ->where('organisation_id', $organisation->id)
+            ->firstOrFail();
+
+        // Event unique par compte : seule la bonne card Alpine est mise à jour.
+        $this->dispatch('passwordRevealed-' . $accountId,
+            password: $account->password ?? ''
+        );
+    }
+
     public function render()
     {
         // On récupère l'organisation active de l'utilisateur

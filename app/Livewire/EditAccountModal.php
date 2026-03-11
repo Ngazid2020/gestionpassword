@@ -19,7 +19,7 @@ class EditAccountModal extends Component
         'name' => 'required|string|max:255',
         'identifiant' => 'required|string',
         'password' => 'nullable|string',
-        'url' => 'nullable|url',
+        'url' => 'nullable|string',
         'category_id' => 'nullable|exists:categories,id',
     ];
 
