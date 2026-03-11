@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Livewire;
 
@@ -20,14 +20,28 @@ class DashboardTable extends Component
 
     public function render()
     {
-        $organisationId = auth()->user()->organisations()->first()->id;
+        // On récupère l'organisation active de l'utilisateur
+        $organisation = auth()->user()->organisations()->first();
 
-        // Requête filtrée par l'ID d'organisation ET la recherche
-        $accounts = Account::where('organisation_id', $organisationId)
+        if (!$organisation) {
+            return view('livewire.dashboard-table', ['accounts' => collect()]);
+        }
+
+        $accounts = Account::where('organisation_id', $organisation->id)
+            // On précise 'organisations.active'
+            ->whereHas('organisation', function ($query) {
+                $query->where('organisations.active', true)
+                    // L'organisation doit avoir moins de 14 jours
+                    ->where('organisations.created_at', '>=', now()->subDays(14));
+            })
+            // On précise 'users.active'
+            ->whereHas('user', function ($query) {
+                $query->where('users.active', true);
+            })
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('url', 'like', '%' . $this->search . '%');
+                        ->orWhere('url', 'like', '%' . $this->search . '%');
                 });
             })
             ->latest()

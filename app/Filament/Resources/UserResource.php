@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -37,8 +38,9 @@ class UserResource extends Resource
                 Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->dehydrated(fn($state) => filled($state)) // Ne renvoie le mot de passe que s'il est rempli
+                    ->required(fn(string $context): bool => $context === 'create'), // Requis uniquement à la création
                 Forms\Components\Select::make('roles')
                     ->relationship(name: 'roles', titleAttribute: 'name')
                     ->saveRelationshipsUsing(function (Model $record, $state) {
@@ -47,6 +49,7 @@ class UserResource extends Resource
                     ->multiple()
                     ->preload()
                     ->searchable(),
+                Toggle::make('active'),
             ]);
     }
 
@@ -61,6 +64,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),
+                Tables\Columns\ToggleColumn::make('active')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
