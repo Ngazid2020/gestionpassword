@@ -13,13 +13,14 @@ class EditAccountModal extends Component
     public Account $account;
 
     // Champs du formulaire
-    public $name, $identifiant, $password, $url, $category_id;
+    public $name, $identifiant, $password, $url, $notes, $category_id;
 
     protected $rules = [
         'name' => 'required|string|max:255',
         'identifiant' => 'required|string',
         'password' => 'nullable|string',
         'url' => 'nullable|string',
+        'notes'=>'nullable|string|max:1000',
         'category_id' => 'nullable|exists:categories,id',
     ];
 
@@ -33,6 +34,7 @@ class EditAccountModal extends Component
         $this->identifiant = $account->identifiant;
         $this->password = $account->password;
         $this->url = $account->url;
+        $this->notes = $account->notes;
         $this->category_id = $account->category_id;
         $this->isOpen = true;
     }
@@ -46,6 +48,7 @@ class EditAccountModal extends Component
             'identifiant' => $this->identifiant,
             'password' => $this->password,
             'url' => $this->url,
+            'notes' => $this->notes,
             'category_id' => $this->category_id,
         ]);
 
@@ -54,7 +57,7 @@ class EditAccountModal extends Component
         $this->isOpen = false;
 
         // Cette ligne force le navigateur à rafraîchir la page entière
-        
+
 
         Notification::make()
             ->title('Modifications réussies!')

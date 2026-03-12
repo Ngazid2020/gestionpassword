@@ -15,6 +15,7 @@ class CreateAccountModal extends Component
     public string $url = '';
     public string $identifiant = '';
     public string $password = '';
+    public string $notes = '';
     public ?int $category_id = null;
 
     protected function rules()
@@ -24,6 +25,7 @@ class CreateAccountModal extends Component
             'identifiant' => 'required|string|max:255',
             'url' => 'nullable|string',
             'password' => 'nullable|string',
+            'notes' => 'nullable|string|max:1000',
             'category_id' => 'nullable|exists:categories,id',
         ];
     }
@@ -38,6 +40,7 @@ class CreateAccountModal extends Component
             'identifiant' => $this->identifiant,
             'password' => $this->password,
             'category_id' => $this->category_id,
+            'notes' => $this->notes,
             'organisation_id' => auth()->user()->organisations()->first()->id,
             'user_id' => auth()->user()->id,
         ]);

@@ -355,7 +355,7 @@
                             <div class="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
 
                                 {{-- Icône / Favicon --}}
-                                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl
+                                <div wire:ignore class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl
                                             bg-gradient-to-br from-indigo-500 to-purple-600
                                             flex items-center justify-center shadow-lg text-white
                                             font-bold text-base sm:text-lg
