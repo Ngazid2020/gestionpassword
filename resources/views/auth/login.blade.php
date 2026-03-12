@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-slot name="title">Login</x-slot>
     <style>
         @keyframes float {
 

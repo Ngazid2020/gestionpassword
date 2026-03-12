@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="title">Tableau de bord</x-slot>
     <x-slot name="header">
         <h2 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
             🔐 Mes Comptes
