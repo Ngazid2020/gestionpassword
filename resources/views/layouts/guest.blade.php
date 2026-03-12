@@ -10,7 +10,7 @@
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
     <meta name="theme-color" content="#4F7CFF">
 
-    <title>Lakile</title>
+    <title>{{ isset($title) ? $title . ' — ' . config('app.name', 'Lakile') : config('app.name', 'Lakile') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

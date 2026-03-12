@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <meta name="theme-color" content="#4F7CFF">
-    <title>{{ config('app.name', 'Lakile') }}</title>
+    <title>{{ isset($title) ? $title . ' — ' . config('app.name', 'Lakile') : config('app.name', 'Lakile') }}</title>
 
     
     <link rel="preconnect" href="https://fonts.bunny.net">
