@@ -73,8 +73,7 @@ class AccountResource extends Resource
                         'name',
                         fn(Builder $query) => $query
                             ->where('organisation_id', filament()->getTenant()->id)
-                    )
-                    ->required(),
+                    ),
 
                 Hidden::make('user_id')
                     ->default(fn() => auth()->id()),

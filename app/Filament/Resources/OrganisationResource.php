@@ -72,6 +72,11 @@ class OrganisationResource extends Resource
             ]);
     }
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->hasRole('superadmin');
+    }
+
     public static function getRelations(): array
     {
         return [

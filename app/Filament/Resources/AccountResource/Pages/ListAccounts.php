@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\AccountResource\Pages;
 
 use App\Filament\Resources\AccountResource;
+use App\Imports\AccountImport;
+use EightyNine\ExcelImport\ExcelImportAction;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
@@ -14,6 +16,12 @@ class ListAccounts extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+            ExcelImportAction::make()
+                ->slideOver()
+                ->color("primary")
+                ->use(AccountImport::class),
         ];
     }
+
+    
 }

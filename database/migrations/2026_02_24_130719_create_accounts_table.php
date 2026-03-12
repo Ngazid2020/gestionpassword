@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('identifiant');
             $table->string('password');
             $table->text('notes')->nullable();
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('organisation_id')->constrained()->onDelete('cascade');
             $table->timestamps();
