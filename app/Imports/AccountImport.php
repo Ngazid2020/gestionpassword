@@ -20,9 +20,10 @@ class AccountImport implements ToCollection
 
             Account::create([
                 'name'        => $row[0],
-                'identifiant' => $row[1],
-                'password'    => $row[2],
-                'notes' => $row[3],
+                'url' => $row[1],
+                'identifiant' => $row[2],
+                'password'    => $row[3],
+                'notes' => $row[4],
                 'user_id'     => auth()->user()->id, // ✅ injecté automatiquement
                 'organisation_id' => auth()->user()->organisations()->first()->id,
             ]);
