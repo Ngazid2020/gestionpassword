@@ -128,6 +128,7 @@
 ══════════════════════════════════════════════════════ --}}
     <div class="max-w-screen-2xl mx-auto px-3 sm:px-4 lg:px-8 mt-3 sm:mt-4 flex justify-end">
         <livewire:create-account-modal wire:key="accountModal" />
+        <livewire:share-accounts-modal />
     </div>
 
     {{-- ══════════════════════════════════════════════════════
@@ -135,4 +136,6 @@
 ══════════════════════════════════════════════════════ --}}
     <livewire:dashboard-table />
     <livewire:edit-account-modal />
+    
+    <livewire:shared-with-me />
 </x-app-layout>

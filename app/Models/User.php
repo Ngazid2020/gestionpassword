@@ -67,4 +67,28 @@ class User extends Authenticatable implements HasTenants
     {
         return $this->organisations()->whereKey($tenant)->exists();
     }
+
+    /**
+     * Partages que cet utilisateur a créés (il est l'owner).
+     */
+    public function sharedByMe(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AccountShare::class, 'owner_id');
+    }
+ 
+    /**
+     * Partages reçus par cet utilisateur.
+     */
+    public function sharedWithMe(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AccountShare::class, 'recipient_id');
+    }
+ 
+    /**
+     * Partages reçus encore actifs (non expirés).
+     */
+    public function activeShares(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->sharedWithMe()->active();
+    }
 }

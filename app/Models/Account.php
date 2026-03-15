@@ -35,4 +35,23 @@ class Account extends Model
     {
         return $this->belongsTo(Organisation::class);
     }
+
+    /**
+     * Partages actifs qui incluent ce compte.
+     */
+    public function shares(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(AccountShare::class, 'account_share_items');
+    }
+
+    /**
+     * Vérifie si ce compte est actuellement partagé avec un utilisateur donné.
+     */
+    public function isSharedWith(int $userId): bool
+    {
+        return $this->shares()
+            ->active()
+            ->where('recipient_id', $userId)
+            ->exists();
+    }
 }

@@ -7,7 +7,7 @@ use Spatie\Permission\PermissionRegistrar;
 
 class AppServiceProvider extends ServiceProvider
 {
-    
+
     /**
      * Register any application services.
      */
@@ -21,13 +21,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-         if (auth()->check()) {
-        $tenant = filament()->getTenant();
+        // if (auth()->check()) {
+        //     $tenant = filament()->getTenant();
 
-        if ($tenant) {
-            app(PermissionRegistrar::class)
-                ->setPermissionsTeamId($tenant->id);
-        }
-    }
+        //     if ($tenant) {
+        //         app(PermissionRegistrar::class)
+        //             ->setPermissionsTeamId($tenant->id);
+        //     }
+        // }
     }
 }
