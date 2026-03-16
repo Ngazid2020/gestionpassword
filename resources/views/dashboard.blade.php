@@ -137,5 +137,4 @@
     <livewire:dashboard-table />
     <livewire:edit-account-modal />
     
-    <livewire:shared-with-me />
 </x-app-layout>
