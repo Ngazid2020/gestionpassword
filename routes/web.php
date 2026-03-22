@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
+Route::view('/confidentialite', 'legal.privacy')->name('privacy');
+Route::view('/conditions-utilisation', 'legal.cgu')->name('cgu');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 

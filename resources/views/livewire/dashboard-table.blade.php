@@ -37,9 +37,61 @@
                 <div class="sidebar-sticky"
                     :class="sidebarOpen ? 'sidebar-expanded' : 'sidebar-collapsed lg:sidebar-expanded'">
 
+
+                    {{-- ── Widget 4 : Alertes sécurité ── --}}
+                    <div class="rounded-2xl p-[1px]
+                                bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500
+                                shadow-lg mb-3 sm:mb-4">
+                        <div class="rounded-2xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl p-4 sm:p-5">
+
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-base sm:text-lg">⚠️</span>
+                                <h3 class="font-bold text-gray-800 dark:text-white text-xs sm:text-sm tracking-wide uppercase">
+                                    Alertes
+                                </h3>
+                            </div>
+
+                            <div class="space-y-2">
+                                @php
+                                $noPass = $accounts->whereNull('password')->count();
+                                $noUrl = $accounts->whereNull('url')->count();
+                                @endphp
+
+                                @if($noPass > 0)
+                                <div class="flex items-center gap-2.5 text-xs">
+                                    <span class="w-2 h-2 rounded-full bg-rose-500 flex-shrink-0 pulse-dot"></span>
+                                    <span class="text-gray-600 dark:text-gray-300">
+                                        <strong class="text-rose-500">{{ $noPass }}</strong>
+                                        compte{{ $noPass > 1 ? 's' : '' }} sans mot de passe
+                                    </span>
+                                </div>
+                                @endif
+
+                                @if($noUrl > 0)
+                                <div class="flex items-center gap-2.5 text-xs">
+                                    <span class="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0"></span>
+                                    <span class="text-gray-600 dark:text-gray-300">
+                                        <strong class="text-amber-500">{{ $noUrl }}</strong>
+                                        compte{{ $noUrl > 1 ? 's' : '' }} sans URL
+                                    </span>
+                                </div>
+                                @endif
+
+                                @if($noPass === 0 && $noUrl === 0)
+                                <div class="flex items-center gap-2.5 text-xs">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0"></span>
+                                    <span class="text-gray-600 dark:text-gray-300">
+                                        Aucune alerte — tout est en ordre ✅
+                                    </span>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
                     {{-- ── Comptes partagés ── --}}
                     <livewire:shared-with-me />
-                    
+
                     {{-- ── Widget 1 : Score de sécurité ── --}}
                     <div class="rounded-2xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl
                                 border border-white/60 dark:border-gray-700/60
@@ -178,56 +230,7 @@
                         </div>
                     </div>
 
-                    {{-- ── Widget 4 : Alertes sécurité ── --}}
-                    <div class="rounded-2xl p-[1px]
-                                bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500
-                                shadow-lg mb-3 sm:mb-4">
-                        <div class="rounded-2xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl p-4 sm:p-5">
 
-                            <div class="flex items-center gap-2 mb-3">
-                                <span class="text-base sm:text-lg">⚠️</span>
-                                <h3 class="font-bold text-gray-800 dark:text-white text-xs sm:text-sm tracking-wide uppercase">
-                                    Alertes
-                                </h3>
-                            </div>
-
-                            <div class="space-y-2">
-                                @php
-                                $noPass = $accounts->whereNull('password')->count();
-                                $noUrl = $accounts->whereNull('url')->count();
-                                @endphp
-
-                                @if($noPass > 0)
-                                <div class="flex items-center gap-2.5 text-xs">
-                                    <span class="w-2 h-2 rounded-full bg-rose-500 flex-shrink-0 pulse-dot"></span>
-                                    <span class="text-gray-600 dark:text-gray-300">
-                                        <strong class="text-rose-500">{{ $noPass }}</strong>
-                                        compte{{ $noPass > 1 ? 's' : '' }} sans mot de passe
-                                    </span>
-                                </div>
-                                @endif
-
-                                @if($noUrl > 0)
-                                <div class="flex items-center gap-2.5 text-xs">
-                                    <span class="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0"></span>
-                                    <span class="text-gray-600 dark:text-gray-300">
-                                        <strong class="text-amber-500">{{ $noUrl }}</strong>
-                                        compte{{ $noUrl > 1 ? 's' : '' }} sans URL
-                                    </span>
-                                </div>
-                                @endif
-
-                                @if($noPass === 0 && $noUrl === 0)
-                                <div class="flex items-center gap-2.5 text-xs">
-                                    <span class="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0"></span>
-                                    <span class="text-gray-600 dark:text-gray-300">
-                                        Aucune alerte — tout est en ordre ✅
-                                    </span>
-                                </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
 
                     {{-- ── Widget 5 : Filtres catégorie ── --}}
                     @if(isset($categories) && $categories->isNotEmpty())
@@ -404,7 +407,7 @@
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                     </svg>
-                                </button>                                
+                                </button>
                             </div>
 
                             {{-- CATÉGORIE --}}
@@ -488,6 +491,26 @@
                                             Copier
                                         </button>
                                     </div>
+                                </div>
+                            </div>
+
+                            {{-- NOTES --}}
+                            <div class="mt-3 sm:mt-4" x-data="{ expanded: false }">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-xs uppercase tracking-wider text-gray-400">Notes</span>
+                                    <button @click="expanded = !expanded"
+                                        class="text-xs font-medium text-indigo-500 hover:text-pink-500 transition flex items-center gap-1">
+                                        <span x-text="expanded ? 'Réduire' : 'Étendre'">Étendre</span>
+                                        <svg class="w-3 h-3 transition-transform duration-200"
+                                            :class="expanded ? 'rotate-180' : ''"
+                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="bg-gray-100 dark:bg-gray-800 rounded-lg sm:rounded-xl px-3 py-2">
+                                    <p class="text-sm text-gray-700 dark:text-gray-300 break-words"
+                                        :class="expanded ? 'whitespace-pre-wrap' : 'truncate'">{{ $account->notes ?: '—' }}</p>
                                 </div>
                             </div>
 
