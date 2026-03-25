@@ -1254,7 +1254,7 @@ img{display:block;max-width:100%}
       <div class="pcard pop">
         <div class="pop-tag">Le plus choisi</div>
         <div class="plan-tier">Pro</div>
-        <div class="plan-price-wrap"><span class="plan-price">29€</span><span class="plan-per">/ mois</span></div>
+        <div class="plan-price-wrap"><span class="plan-price">10 000 KMF</span><span class="plan-per">/ mois</span></div>
         <div class="plan-desc">Pour les équipes en croissance. Utilisateurs illimités.</div>
         <div class="plan-sep"></div>
         <ul class="plan-list">
