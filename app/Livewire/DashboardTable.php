@@ -90,7 +90,8 @@ class DashboardTable extends Component
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('name', 'like', '%' . $this->search . '%')
-                        ->orWhere('url', 'like', '%' . $this->search . '%');
+                        ->orWhere('url', 'like', '%' . $this->search . '%')
+                        ->orWhere('identifiant', 'like', '%' . $this->search . '%');
                 });
             })
             ->when($this->categoryFilter, function ($query) {
