@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Organisation;
+use App\Models\Role;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -30,7 +31,28 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
         ]);
 
-        User::where('id',1)->first()->organisations()->attach($organisation1);
-        User::where('id',1)->first()->organisations()->attach($organisation2);
+        User::where('id', 1)->first()->organisations()->attach($organisation1);
+        User::where('id', 1)->first()->organisations()->attach($organisation2);
+
+        $rolesuperadmin = Role::create([
+            'name' => 'Super Admin',
+            'guard_name' => 'web',
+        ]);
+        $superadmin = User::factory()->create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@example.com',
+        ]);
+
+        $systemOrg = Organisation::factory()->create([
+            'name' => 'System',
+            'slug' => 'system',
+        ]);
+        // ✅ Attacher le superadmin à l'org système
+        $superadmin->organisations()->attach($systemOrg->id);
+        
+        app(\Spatie\Permission\PermissionRegistrar::class)
+            ->setPermissionsTeamId($systemOrg->id);
+
+        $superadmin->assignRole($rolesuperadmin);
     }
 }

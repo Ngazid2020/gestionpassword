@@ -74,7 +74,7 @@ class OrganisationResource extends Resource
 
     public static function canAccess(): bool
     {
-        return auth()->user()?->hasRole('superadmin');
+        return auth()->user()?->hasRole('Super Admin');
     }
 
     public static function getRelations(): array

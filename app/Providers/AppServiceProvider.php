@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Permission\PermissionRegistrar;
 
@@ -29,5 +31,8 @@ class AppServiceProvider extends ServiceProvider
         //             ->setPermissionsTeamId($tenant->id);
         //     }
         // }
+        Gate::before(function (User $user, string $ability) {
+            return $user->isSuperAdmin() ? true : null;
+        });
     }
 }
