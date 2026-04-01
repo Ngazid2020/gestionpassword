@@ -61,11 +61,17 @@ class User extends Authenticatable implements HasTenants
 
     public function getTenants(Panel $panel): Collection
     {
+        // if ($this->isSuperAdmin()) {
+        //     return Organisation::all();
+        // }
         return $this->organisations;
     }
 
     public function canAccessTenant(Model $tenant): bool
     {
+        // if ($this->isSuperAdmin()) {
+        //     return true; // ✅
+        // }
         return $this->organisations()->whereKey($tenant)->exists();
     }
 
@@ -76,7 +82,7 @@ class User extends Authenticatable implements HasTenants
     {
         return $this->hasMany(AccountShare::class, 'owner_id');
     }
- 
+
     /**
      * Partages reçus par cet utilisateur.
      */
@@ -84,7 +90,7 @@ class User extends Authenticatable implements HasTenants
     {
         return $this->hasMany(AccountShare::class, 'recipient_id');
     }
- 
+
     /**
      * Partages reçus encore actifs (non expirés).
      */

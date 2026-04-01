@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\SeoMiddleware::class,
         ]);
+        $middleware->alias([
+            'subscription' => \App\Http\Middleware\Checksubscription::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

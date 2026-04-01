@@ -17,22 +17,22 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $organisation1 = Organisation::factory()->create([
-            'name' => 'Test Organisation 1',
-            'slug' => 'test-organisation-1',
-        ]);
-        $organisation2 = Organisation::factory()->create([
-            'name' => 'Test Organisation 2',
-            'slug' => 'test-organisation-2',
-        ]);
+        // $organisation1 = Organisation::factory()->create([
+        //     'name' => 'Test Organisation 1',
+        //     'slug' => 'test-organisation-1',
+        // ]);
+        // $organisation2 = Organisation::factory()->create([
+        //     'name' => 'Test Organisation 2',
+        //     'slug' => 'test-organisation-2',
+        // ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'admin@example.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'admin@example.com',
+        // ]);
 
-        User::where('id', 1)->first()->organisations()->attach($organisation1);
-        User::where('id', 1)->first()->organisations()->attach($organisation2);
+        // User::where('id', 1)->first()->organisations()->attach($organisation1);
+        // User::where('id', 1)->first()->organisations()->attach($organisation2);
 
         $rolesuperadmin = Role::create([
             'name' => 'Super Admin',

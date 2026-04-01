@@ -41,6 +41,8 @@ class RegisteredUserController extends Controller
         $organisation = Organisation::create([
             'name' => $request->organisation,
             'slug' => Str::slug($request->organisation),
+            'subscription_status' => 'trial',
+            'trial_ends_at'       => now()->addDays(14),
         ]);
 
         $user = User::create([

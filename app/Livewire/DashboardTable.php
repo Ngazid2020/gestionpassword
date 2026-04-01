@@ -81,8 +81,8 @@ class DashboardTable extends Component
         $accounts = Account::where('organisation_id', $organisation->id)
             ->where('user_id', auth()->user()->id)
             ->whereHas('organisation', function ($query) {
-                $query->where('organisations.active', true)
-                    ->where('organisations.created_at', '>=', now()->subDays(30));
+                $query->where('organisations.active', true);
+                    // ->where('organisations.created_at', '>=', now()->subDays(30))
             })
             ->whereHas('user', function ($query) {
                 $query->where('users.active', true);

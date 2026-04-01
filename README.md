@@ -67,4 +67,4 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 
 # Lire la structure de mon projet
-Get-ChildItem -Path app\Models,app\Livewire,app\Http,routes,database\migrations,resources\views -Recurse -Include "*.php","*.blade.php" | ForEach-Object { "`n===== $($_.FullName) =====`n" + (Get-Content $_.FullName -Raw) } | Out-File -FilePath output.txt -Encoding utf8
+Get-ChildItem -Path app\Models,app\Livewire,app\Http,routes,database\migrations,app\filament\resources,resources\views -Recurse -Include "*.php","*.blade.php" | ForEach-Object { "`n===== $($_.FullName) =====`n" + (Get-Content $_.FullName -Raw) } | Out-File -FilePath output.txt -Encoding utf8
