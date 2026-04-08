@@ -12,12 +12,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasTenants
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, HasSuperAdmin;
+    use HasFactory, Notifiable, HasRoles, HasSuperAdmin, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -51,6 +52,9 @@ class User extends Authenticatable implements HasTenants
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'two_factor_secret'          => 'encrypted',
+            'two_factor_recovery_codes'  => 'encrypted:array',
+            'two_factor_confirmed_at'    => 'datetime',
         ];
     }
 
