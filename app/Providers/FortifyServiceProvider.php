@@ -13,6 +13,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Contracts\LoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -21,7 +22,22 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Écrase la redirection après login
+        $this->app->singleton(LoginResponse::class, function () {
+            return new class implements LoginResponse {
+                public function toResponse($request)
+                {
+                    $intended = redirect()->intended('/dashboard')->getTargetUrl();
+
+                    // Si l'intended URL est livewire/update → ignorer, aller au dashboard
+                    if (str_contains($intended, 'livewire')) {
+                        return redirect('/dashboard');
+                    }
+
+                    return redirect()->intended('/dashboard');
+                }
+            };
+        });
     }
 
     /**

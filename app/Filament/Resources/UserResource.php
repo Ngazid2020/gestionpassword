@@ -42,7 +42,10 @@ class UserResource extends Resource
                     ->dehydrated(fn($state) => filled($state)) // Ne renvoie le mot de passe que s'il est rempli
                     ->required(fn(string $context): bool => $context === 'create'), // Requis uniquement à la création
                 Forms\Components\Select::make('roles')
-                    ->relationship(name: 'roles', titleAttribute: 'name')
+                    ->relationship(name: 'roles', titleAttribute: 'name', 
+                    modifyQueryUsing: fn(Builder $query) =>
+                    $query->where('name', '!=', 'Super Admin'))
+
                     ->saveRelationshipsUsing(function (Model $record, $state) {
                         $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => getPermissionsTeamId()]);
                     })
