@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Illuminate\Session\TokenMismatchException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -25,6 +26,12 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->is('livewire/update')) {
                 return redirect('/dashboard');
             }
+        });
+
+        // Fix erreur 419 — session expirée
+        $exceptions->renderable(function (TokenMismatchException $e, $request) {
+            return redirect('/login')
+                ->withErrors(['session' => 'Votre session a expiré, veuillez vous reconnecter.']);
         });
     })
     ->create();
