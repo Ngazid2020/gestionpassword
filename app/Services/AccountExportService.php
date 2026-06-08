@@ -3,9 +3,7 @@
 namespace App\Services;
 
 use App\Models\Organisation;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
-use ZipArchive;
 
 class AccountExportService
 {
@@ -24,7 +22,7 @@ class AccountExportService
                     'category_id' => $account->category_id,
                     'name' => $account->name,
                     'username' => $account->username,
-                    'password_encrypted' => $account->password, // déjà chiffré par le cast
+                    'password_encrypted' => $account->password,
                     'user_id' => $account->user_id,
                     'url' => $account->url,
                     'identifiant' => $account->identifiant,
@@ -50,10 +48,11 @@ class AccountExportService
             'accounts' => $accounts,
         ];
 
-        // Chiffrement optionnel avec mot de passe utilisateur
+        // ── CHIFFREMENT PAR MOT DE PASSE (portable, indépendant de APP_KEY) ──
         if ($withPasswordEncryption && $userPassword) {
             $json = json_encode($payload);
-            $encrypted = Crypt::encryptString($json); // ou openssl avec PBKDF2
+            $encrypted = $this->encryptWithPassword($json, $userPassword);
+
             $payload = [
                 'meta' => [
                     'version' => '1.0',
@@ -70,5 +69,33 @@ class AccountExportService
         Storage::disk('local')->put($path, json_encode($payload, JSON_PRETTY_PRINT));
 
         return Storage::disk('local')->path($path);
+    }
+
+    /**
+     * Chiffrement AES-256-GCM + PBKDF2 (100 000 itérations)
+     */
+    private function encryptWithPassword(string $plainText, string $password): string
+    {
+        $salt = random_bytes(16);
+        $key = hash_pbkdf2('sha256', $password, $salt, 100000, 32, true);
+        $iv = random_bytes(12);
+        $tag = '';
+
+        $cipherText = openssl_encrypt(
+            $plainText,
+            'aes-256-gcm',
+            $key,
+            OPENSSL_RAW_DATA,
+            $iv,
+            $tag,
+            '',
+            16
+        );
+
+        if ($cipherText === false) {
+            throw new \RuntimeException('Échec du chiffrement.');
+        }
+
+        return base64_encode($salt . $iv . $tag . $cipherText);
     }
 }

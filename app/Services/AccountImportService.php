@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Organisation;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -21,13 +20,13 @@ class AccountImportService
             throw new \RuntimeException('Fichier JSON invalide.');
         }
 
-        // Déchiffrement si nécessaire
+        // ── DÉCHIFFREMENT PAR MOT DE PASSE (portable, indépendant de APP_KEY) ──
         if ($data['meta']['encrypted'] ?? false) {
             if (!$userPassword) {
                 throw new \RuntimeException('Ce fichier est protégé par un mot de passe.');
             }
             try {
-                $decrypted = Crypt::decryptString($data['data']);
+                $decrypted = $this->decryptWithPassword($data['data'], $userPassword);
                 $data = json_decode($decrypted, true);
             } catch (\Exception $e) {
                 throw new \RuntimeException('Mot de passe incorrect ou fichier corrompu.');
@@ -70,7 +69,6 @@ class AccountImportService
 
             // Import des comptes
             foreach ($data['accounts'] as $accData) {
-                // Vérifier doublon par nom + name dans l'org
                 $exists = $organisation->accounts()
                     ->where('name', $accData['name'])
                     ->where('name', $accData['name'])
@@ -86,7 +84,7 @@ class AccountImportService
                     'category_id' => $categoryMap[$accData['category_id']] ?? null,
                     'identifiant' => $accData['identifiant'],
                     'name' => $accData['name'],
-                    'password' => $accData['password_encrypted'], // cast encrypted gère le reste
+                    'password' => $accData['password_encrypted'],
                     'url' => $accData['url'],
                     'notes' => $accData['notes'] ?? null,
                     'user_id' => $accData['user_id'],
@@ -97,5 +95,39 @@ class AccountImportService
 
             return $stats;
         });
+    }
+
+    /**
+     * Déchiffrement AES-256-GCM + PBKDF2 (100 000 itérations)
+     */
+    private function decryptWithPassword(string $encodedData, string $password): string
+    {
+        $raw = base64_decode($encodedData, true);
+
+        if ($raw === false || strlen($raw) < 44) {
+            throw new \RuntimeException('Données chiffrées invalides.');
+        }
+
+        $salt = substr($raw, 0, 16);
+        $iv = substr($raw, 16, 12);
+        $tag = substr($raw, 28, 16);
+        $cipherText = substr($raw, 44);
+
+        $key = hash_pbkdf2('sha256', $password, $salt, 100000, 32, true);
+
+        $decrypted = openssl_decrypt(
+            $cipherText,
+            'aes-256-gcm',
+            $key,
+            OPENSSL_RAW_DATA,
+            $iv,
+            $tag
+        );
+
+        if ($decrypted === false) {
+            throw new \RuntimeException('Échec du déchiffrement.');
+        }
+
+        return $decrypted;
     }
 }
