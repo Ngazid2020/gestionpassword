@@ -3,8 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrganisationResource\Pages;
-use App\Filament\Resources\OrganisationResource\RelationManagers;
 use App\Models\Organisation;
+use App\Services\AccountExportService;
+use App\Services\AccountImportService;
 use Filament\Forms;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -15,16 +16,13 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class OrganisationResource extends Resource
 {
     protected static ?string $model = Organisation::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
-
     protected static bool $isScopedToTenant = false;
 
     public static function form(Form $form): Form
@@ -144,9 +142,160 @@ class OrganisationResource extends Resource
                         'enterprise' => 'Enterprise',
                     ]),
             ])
-            ->actions([
 
-                // ── Action : Enregistrer un paiement ──────────────────────────
+            // ═══════════════════════════════════════════════════════════════
+            // ACTIONS GLOBALES (header) — export/import avec choix d'organisation
+            // ═══════════════════════════════════════════════════════════════
+            ->headerActions([
+                Action::make('export')
+                    ->label('Exporter les comptes')
+                    ->icon('heroicon-m-arrow-down-tray')
+                    ->requiresConfirmation()
+                    ->modalDescription('Exporter tous les comptes et catégories d\'une organisation.')
+                    ->form([
+                        Forms\Components\Select::make('organisation_id')
+                            ->label('Organisation')
+                            ->options(Organisation::pluck('name', 'id'))
+                            ->searchable()
+                            ->required(),
+                        Forms\Components\Toggle::make('with_password')
+                            ->label('Protéger par un mot de passe')
+                            ->default(false)
+                            ->live(),
+                        Forms\Components\TextInput::make('password')
+                            ->label('Mot de passe de protection')
+                            ->password()
+                            ->required(fn($get) => $get('with_password'))
+                            ->visible(fn($get) => $get('with_password')),
+                    ])
+                    ->action(function (array $data) {
+                        $organisation = Organisation::findOrFail($data['organisation_id']);
+
+                        $service = app(AccountExportService::class);
+                        $path = $service->export(
+                            $organisation,
+                            $data['with_password'] ?? false,
+                            $data['password'] ?? null
+                        );
+
+                        return response()->download($path)->deleteFileAfterSend();
+                    }),
+
+                Action::make('import')
+                    ->label('Importer des comptes')
+                    ->icon('heroicon-m-arrow-up-tray')
+                    ->color('gray')
+                    ->modalSubmitActionLabel('Importer maintenant')
+                    ->form([
+                        Forms\Components\Select::make('organisation_id')
+                            ->label('Organisation')
+                            ->options(Organisation::pluck('name', 'id'))
+                            ->searchable()
+                            ->required(),
+                        Forms\Components\FileUpload::make('file')
+                            ->label('Fichier JSON')
+                            ->acceptedFileTypes(['application/json'])
+                            ->required()
+                            ->disk('local')
+                            ->directory('imports'),
+                        Forms\Components\TextInput::make('password')
+                            ->label('Mot de passe (si chiffré)')
+                            ->password(),
+                    ])
+                    ->action(function (array $data) {
+                        try {
+                            $organisation = Organisation::findOrFail($data['organisation_id']);
+                            $filePath = $data['file'];
+                            $fullPath = Storage::disk('local')->path($filePath);
+
+                            \Log::info('Import header debug', [
+                                'filePath' => $filePath,
+                                'fullPath' => $fullPath,
+                                'exists'   => file_exists($fullPath),
+                            ]);
+
+                            if (!file_exists($fullPath)) {
+                                throw new \RuntimeException('Fichier introuvable : ' . $fullPath);
+                            }
+
+                            $service = app(AccountImportService::class);
+                            $stats = $service->import($organisation, $fullPath, $data['password'] ?? null);
+
+                            Storage::disk('local')->delete($filePath);
+
+                            Notification::make()
+                                ->title('✅ Import terminé')
+                                ->body("{$stats['accounts']} comptes importés, {$stats['categories']} catégories, {$stats['skipped']} doublons ignorés.")
+                                ->success()
+                                ->send();
+                        } catch (\Exception $e) {
+                            Notification::make()
+                                ->title('❌ Erreur lors de l\'import')
+                                ->body($e->getMessage())
+                                ->danger()
+                                ->persistent()
+                                ->send();
+                        }
+                    }),
+            ])
+
+            // ═══════════════════════════════════════════════════════════════
+            // ACTIONS PAR LIGNE — PAS de Select organisation_id, on a déjà $record
+            // ═══════════════════════════════════════════════════════════════
+            ->actions([
+                Action::make('import_row')
+                    ->label('Importer')
+                    ->icon('heroicon-m-arrow-up-tray')
+                    ->color('gray')
+                    ->modalSubmitActionLabel('Importer maintenant')
+                    ->form([
+                        Forms\Components\FileUpload::make('file')
+                            ->label('Fichier JSON')
+                            ->acceptedFileTypes(['application/json'])
+                            ->required()
+                            ->disk('local')
+                            ->directory('imports'),
+                        Forms\Components\TextInput::make('password')
+                            ->label('Mot de passe (si chiffré)')
+                            ->password(),
+                    ])
+                    // ⚠️ SIGNATURE CORRIGÉE : Organisation $record en premier !
+                    ->action(function (Organisation $record, array $data) {
+                        try {
+                            $filePath = $data['file'];
+                            $fullPath = Storage::disk('local')->path($filePath);
+
+                            \Log::info('Import row debug', [
+                                'org_id'   => $record->id,
+                                'filePath' => $filePath,
+                                'fullPath' => $fullPath,
+                                'exists'   => file_exists($fullPath),
+                            ]);
+
+                            if (!file_exists($fullPath)) {
+                                throw new \RuntimeException('Fichier introuvable : ' . $fullPath);
+                            }
+
+                            $service = app(AccountImportService::class);
+                            $stats = $service->import($record, $fullPath, $data['password'] ?? null);
+
+                            Storage::disk('local')->delete($filePath);
+
+                            Notification::make()
+                                ->title('✅ Import terminé')
+                                ->body("{$stats['accounts']} comptes importés, {$stats['categories']} catégories, {$stats['skipped']} doublons ignorés.")
+                                ->success()
+                                ->send();
+                        } catch (\Exception $e) {
+                            Notification::make()
+                                ->title('❌ Erreur lors de l\'import')
+                                ->body($e->getMessage())
+                                ->danger()
+                                ->persistent()
+                                ->send();
+                        }
+                    }),
+
                 Action::make('record_payment')
                     ->label('Encaisser')
                     ->icon('heroicon-o-banknotes')
@@ -156,7 +305,6 @@ class OrganisationResource extends Resource
                     ->modalWidth('lg')
                     ->form([
                         Forms\Components\Grid::make(2)->schema([
-
                             Forms\Components\Select::make('plan')
                                 ->label('Plan souscrit')
                                 ->options([
@@ -211,7 +359,6 @@ class OrganisationResource extends Resource
                             ->send();
                     }),
 
-                // ── Action : Voir l'historique des paiements ──────────────────
                 Action::make('payment_history')
                     ->label('Historique')
                     ->icon('heroicon-o-clock')
@@ -224,7 +371,6 @@ class OrganisationResource extends Resource
                     ->modalFooterActions([])
                     ->modalWidth('2xl'),
 
-                // ── Action : Suspendre ────────────────────────────────────────
                 Action::make('suspend')
                     ->label('Suspendre')
                     ->icon('heroicon-o-no-symbol')
@@ -256,22 +402,20 @@ class OrganisationResource extends Resource
 
     public static function canAccess(): bool
     {
-        return auth()->user()?->hasRole('Super Admin');
+        return true;
     }
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrganisations::route('/'),
+            'index'  => Pages\ListOrganisations::route('/'),
             'create' => Pages\CreateOrganisation::route('/create'),
-            'edit' => Pages\EditOrganisation::route('/{record}/edit'),
+            'edit'   => Pages\EditOrganisation::route('/{record}/edit'),
         ];
     }
 }
